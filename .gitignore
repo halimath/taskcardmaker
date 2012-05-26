@@ -1,0 +1,12 @@
+*.pyc
+.project
+.pydevproject
+target
+.coverage
+*.pdf
+env
+*.deb
+ip*.tcm
+ootw.tcm
+ve
+

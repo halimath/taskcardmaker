@@ -1,0 +1,61 @@
+{% extends "template.html" %} 
+
+{% block title %}Create your taskcard PDFs online{% endblock %} 
+
+{% block top %}
+<h1>Taskcardmaker</h1>
+{% endblock %}
+
+{% block main %}
+
+<noscript>
+    <span style="color: red;">
+        Your browser does not support Javascript. Taskcardmaker requires a modern
+        browser with Javascript enabled in order to work properly.
+    </span>
+</noscript>
+
+<h2>Welcome to Taskcardmaker</h2>
+
+<span class="right">
+	<img src="/static/teaser.png" alt="Teaser"/>
+</span>
+
+<p>
+	Taskcardmaker is an easy-to-use tool to assist you when
+	creating task cards. Task cards are typically used in agile software
+	development (such as Scrum or Kanban) but can be usefull in other
+	situations as well.
+</p>
+
+<p>
+	Taskcardmaker makes it easy to author task cards even in a larger group of people
+	and will generate a ready to print PDF file.
+</p>
+
+<p>
+	You can use Taskcardmaker free of charge and create as many taskcards as you want.
+</p>
+
+<p>
+	<a href="{{login_url}}">Login with your Google account</a> and start
+	creating tasks.
+</p>
+
+
+<div class="clear"/>
+
+<div class="small hidden" id="browser-hint">
+	Taskcardmaker requires an modern browser. Using <a href="https://www.google.com/chrome/">Google Chrome</a>
+	or <a href="http://www.mozilla.org/">Mozilla Firefox</a> are always good choices...
+</div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function () {
+	 	if (taskcardmaker.utils.isBrowserOutdated()) { 
+			jQuery("#browser-hint").show();
+	 	} 
+	});
+</script>
+
+{% endblock %}

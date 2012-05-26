@@ -1,0 +1,29 @@
+.dialog {
+	padding: 4px;
+	background-color: #fff;
+
+	z-index: 100;
+	position: fixed;
+	
+	border: 1px solid #ccc;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	
+	-moz-box-shadow: 0px 5px 5px #aaa;
+	-webkit-box-shadow: 0px 5px 5px #aaa;
+	box-shadow: 0px 5px 5px #aaa;
+}
+
+fieldset {
+	border: 1px solid #ccc;
+}
+
+legend {
+	color: #1C94C4;
+	font-weigth: bold;
+}
+
+#close-dialog-link {
+	float: right;
+}

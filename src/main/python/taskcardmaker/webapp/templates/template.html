@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>{% block title %}{% endblock %} - Taskcardmaker</title> 
+    {% block head %}{% endblock %}
+
+    <link rel="stylesheet" href="/static/styles.css" media="screen" />
+    <link rel="stylesheet" href="/static/ui.css" media="screen" />
+<!--    <link rel="stylesheet"-->
+<!--      href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/ui-lightness/jquery-ui.css"-->
+<!--      media="screen" />-->
+    <link rel="stylesheet"
+      href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/redmond/jquery-ui.css"
+      media="screen" />
+
+    <script type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/taskcardmaker.js"></script>
+  </head>
+  <body>
+    <div class="content">
+			<div class="top">{% block top %}{% endblock %}</div>
+			<div class="main">{% block main %}{% endblock %}</div>
+    </div>
+
+    <div class="footer">
+      <div id="version">
+        Version: {{version|escape}}<br /> 
+        Copyright &copy; 2011, 2012 Alexander Metzner.
+		  </div>
+
+      <div class="we_use">
+        <a href="http://www.djangoproject.com/" title="Made with Django">
+          Made with Django
+        </a> &mdash; 
+        <a href="http://code.google.com/appengine/"
+				  title="Powered by Google App Engine">
+				  Powered by Google App Engine
+				</a>
+		</div>
+	</div>
+</body>
+</html>

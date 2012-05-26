@@ -1,0 +1,24 @@
+{% extends "template.html" %}
+
+{% block title %}Status{% endblock %}
+
+{% block top %}
+    <h1>Info &mdash; Taskcardmaker</h1>
+{% endblock %}
+
+{% block main %}
+	<table class="data">
+	   <tr>
+	       <th>Version</th>
+	       <td>{{version}}</td>
+	   </tr>
+	   <tr>
+	       <th>Django Version</th>
+	       <td>{{django_version}}</td>
+	   </tr>
+	   <tr>
+	       <th>Python Version</th>
+	       <td>{{python_version}}</td>
+	   </tr>
+	</table>
+{% endblock %}

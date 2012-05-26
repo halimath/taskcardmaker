@@ -1,0 +1,155 @@
+body,p,td,th,li {
+	font-size: 11pt;
+	font-family: helvetiva, arial, sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+p {
+	padding: 1em 2em;
+}
+
+a:link,a:active,a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	font-weight: bold;
+	font-size: 1.6em;
+}
+
+h2 {
+	font-weight: bold;
+	font-size: 1.4em;
+}
+
+.hidden {
+	display: none;
+}
+
+.paragraph {
+	padding-left: 2em;
+	padding-right: 2em;
+	padding-top: 2em;
+}
+
+.top {
+	margin: 0;
+	padding: 4px 20px;
+	border-bottom: 1px solid darkgray;
+	background-color: #EEEEEE;
+	background: -moz-linear-gradient(top, #FAFAFA, #EEEEEE);
+	background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA),
+		to(#EEEEEE) );
+}
+
+.top h1 {
+	display: inline;
+	color: #2b6dd7;
+	size: 1.4em;
+	font-weight: bold;
+	padding: 0 2em;
+}
+
+.footer {
+	margin-top: 20px;
+	padding-top: 10px;
+	border-top: 1px solid #B0B0B0;
+	text-align: center;
+	font-size: .9em;
+	color: #909090;
+	background-color: #EEEEEE;
+	background: -moz-linear-gradient(top, #EEEEEE, #FAFAFA);
+	background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE),
+		to(#FAFAFA) );
+}
+
+.footer div a:link,
+.footer div a:active,
+.footer div a:visited {
+    text-decoration: none;
+	color: #909090;
+}
+
+.footer div a:hover {
+    text-decoration: underline;
+}
+
+#error {
+	font-weight: bold;
+	color: #AA0000;
+	background-color: #FFF1A8;
+	border: 2px solid #EFE198;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin: .5em 5em;
+	padding: .5em 2em;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
+
+.clear {
+	clear: both;
+}
+
+.main {
+	padding: 10px 20px;
+}
+
+.light {
+	color: rgb(100, 100, 100);
+	font-style: italic;
+}
+
+.debug {
+	color: #909090;
+}
+
+.small {
+	font-size: .9em;
+}
+
+.shallow {
+	color: rgb(30, 30, 30);
+}
+
+textarea {
+	font-size: 1.2em;
+	padding: 2px 4px;
+	border: 1px solid #999999;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	outline: none;
+}
+
+textarea:focus {
+	border: 1px solid #2b6dd7;
+}
+
+.buttons {
+	margin-bottom: 10px;
+}
+
+#message {
+	background-color: #e5e590;
+	border: 1px solid #c5c570;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+	z-index: 99;
+	position: absolute;
+	padding: 2px 1em;
+	
+  -webkit-box-shadow: 5px 5px 10px #A0A0A0;
+  -moz-box-shadow: 5px 5px 10px #A0A0A0;
+  box-shadow: 5px 5px 10px #A0A0A0;
+}
