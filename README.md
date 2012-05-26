@@ -13,5 +13,5 @@ document ready for printing to bring the task and story cards to your agile
 planning board.
 
 Taskcardmaker can be used online free of charge at 
-[http://taskcardmaker.appspot.com](http://taskcardmaker.appspot.com Taskcardmaker at Google App Engine).
+[http://taskcardmaker.appspot.com](http://taskcardmaker.appspot.com).
 
