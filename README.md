@@ -17,3 +17,9 @@ planning board.
 Taskcardmaker can be used online free of charge at 
 [http://taskcardmaker.appspot.com](http://taskcardmaker.appspot.com).
 
+#Third party software used
+
+Taskcardmaker uses [Django](https://www.djangoproject.com/) as the webframework
+and the [Reportlab PDF Library](http://www.reportlab.com/software/opensource/) 
+for generating PDF output. For deployment reasons, reportlab is bundled with 
+the application. Reportlab published under the terms of the BSD license. 
