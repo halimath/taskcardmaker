@@ -1,6 +1,8 @@
 Taskcardmaker
 ---------------
 
+[![Build Status](https://secure.travis-ci.org/halimath/taskcardmaker.png?branch=master)](http://travis-ci.org/halimath/taskcardmaker)
+
 *Taskcardmaker* is an Google App Engine hosted web application that
 provides an easy to use editor to create story and taskcards typically
 used by agile software development teams that use scrum, kanban or a similar 
