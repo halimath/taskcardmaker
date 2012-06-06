@@ -153,3 +153,8 @@ textarea:focus {
   -moz-box-shadow: 5px 5px 10px #A0A0A0;
   box-shadow: 5px 5px 10px #A0A0A0;
 }
+
+.ui-dialog * {
+    font-family: helvetiva, arial, sans-serif;
+    font-size: 11pt;
+}

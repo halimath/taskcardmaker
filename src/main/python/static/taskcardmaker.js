@@ -1,42 +1,21 @@
 window.taskcardmaker = window.taskcardmaker || {};
 window.ui = window.ui || {};
 
-ui.Dialog = function (selector, title) {
+ui.Dialog = function(selector, title) {
 	var dialog = jQuery(selector).dialog({
-		autoOpen: false,
-		modal: true,
-		title: title
+		autoOpen : false,
+		modal : true,
+		title : title,
+		buttons: { "Ok": function() { $(this).dialog("close"); }}
 	});
-	
-	this.toggle = function () {
+
+	this.toggle = function() {
 		if (dialog.dialog('isOpen')) {
 			dialog.dialog('close');
 		} else {
 			dialog.dialog('open');
 		}
 	};
-};
-
-ui.Checkbox = function (label, name, id, checked, callback) {
-	var group = jQuery("<div>");
-	var input = jQuery("<input type='checkbox'>").appendTo(group).attr("name",
-			name).attr("id", id);
-	
-	if (checked) {
-		console.log("Checking " + name);
-		input.attr("checked", true);
-	} else {
-		console.log("Unchecking " + name);
-		input.attr("checked", false);
-	}
-
-	input.change(function() {
-		callback(input.attr("checked"));
-	});
-
-	jQuery("<label>").attr("for", name).text(label).appendTo(group);
-
-	return group;
 };
 
 taskcardmaker.Preferences = function(containerExpr) {
@@ -52,8 +31,8 @@ taskcardmaker.Preferences = function(containerExpr) {
 		}
 		return "false";
 	}
-	
-	function parseBoolean (string) {
+
+	function parseBoolean(string) {
 		if (!string) {
 			return false;
 		}
@@ -74,43 +53,37 @@ taskcardmaker.Preferences = function(containerExpr) {
 			return;
 		}
 		var autoUpdatePreview = localStorage.getItem("autoUpdatePreview");
-		if (autoUpdatePreview == null) {
+		if (autoUpdatePreview === null) {
 			autoUpdatePreview = "true";
 		}
 		this.autoupdatePreview = parseBoolean(autoUpdatePreview);
 	};
 
 	this.load();
-	console.log(this.autoupdatePreview);
 
 	var dialog = new ui.Dialog(containerExpr, 'Preferences');
 	var container = jQuery(containerExpr);
 	container.hide();
 
-	var fieldset = jQuery("<fieldset>").appendTo(container);
-	jQuery("<legend>").text("Preferences").appendTo(fieldset);
+	jQuery("#input-autoupdate").attr("checked", this.autoUpdatePreview ? "checked" : "");
+	jQuery("#input-autoupdate").change(function() {
+		console.log("Changing autoupdate");
+		var checked = jQuery(this).attr("checked");
+		that.autoupdatePreview = checked;
+		that.save();
+	});
 
-	new ui.Checkbox("Update the preview everytime I press return",
-			"autoupdate", "input-autoupdate", this.autoupdatePreview, function(
-					checked) {
-				that.autoupdatePreview = checked;
-				that.save();
-			}).appendTo(fieldset);
+	jQuery("#input-generate-story-cards").change(function() {
+		var checked = jQuery(this).attr("checked");
+		that.generateStoryCards = checked;
+		that.save();
+	});
 
-	/*
-	new ui.Checkbox("Generate story card for each story", "generateStoryCards",
-			"input-generate-story-cards", this.generateStoryCards, function(
-					checked) {
-				that.generateStoryCards = checked;
-				that.save();
-			}).appendTo(fieldset);
-
-	new ui.Checkbox("Add background colors for cards", "colorCards",
-			"input-color-cards", this.colorCards, function(checked) {
-				that.colorCards = checked;
-				that.save();
-			}).appendTo(fieldset);
-	*/
+	jQuery("#input-color-cards").change(function() {
+		var checked = jQuery(this).attr("checked");
+		that.colorCards = checked;
+		that.save();
+	});
 
 	this.toggle = function() {
 		dialog.toggle();

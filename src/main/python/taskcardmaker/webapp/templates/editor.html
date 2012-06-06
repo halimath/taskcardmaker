@@ -29,8 +29,6 @@
 
 <div id="error" class="hidden"></div>
 	
-<div id="preferences" class="hidden"></div>
-	
 <div id="preview-container">
   <h2>Preview</h2>
 	<div id="preview"></div>
@@ -86,6 +84,18 @@ B:Create blocker tasks
 </div>
 	
 <div style="clear: both;"></div>
+
+<div id="preferences" class="hidden">
+    <input type="checkbox" name="autoupdate" id="input-autoupdate" />
+    <label for="input-autoupdate">Update the preview everytime I press &lt;RETURN&gt;</label><br />
+{% comment %}
+    <input type="checkbox" name="generateStoryCards" id="input-generate-story-cards" />
+    <label for="input-autoupdate">Generate story card for each story</label><br />
+
+    <input type="checkbox" name="colorCards" id="input-color-cards" />
+    <label for="input-autoupdate">Add background colors for cards</label><br />
+{% endcomment %}
+</div>
 	
 <script type="text/javascript">
 function toggleHelp () {
