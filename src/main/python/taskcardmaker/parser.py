@@ -1,7 +1,7 @@
 
 from taskcardmaker.model import Project, Story, Task
 
-class ParsingError (Exception):
+class SyntaxError (Exception):
     def __init__ (self, message):
         self.message = message
     
@@ -23,12 +23,20 @@ class TaskCardParser (object):
         if line.startswith("P:"):
             self.project = Project(line[2:].strip())
         elif line.startswith("S:"):
-            identifier, title = line[2:].split("|")
-            self.story = Story(identifier.strip(), title.strip())
-            self.project.add_story(self.story)
+            if len(line[2:]) == 0:
+                raise SyntaxError("Missing story identifier")
+            try:
+                if "|" in line[2:]:
+                    identifier, title = line[2:].split("|")
+                else:
+                    identifier = title = line[2:]
+                self.story = Story(identifier.strip(), title.strip())
+                self.project.add_story(self.story)
+            except ValueError:
+                raise SyntaxError("Syntax error in story line: '%s'" % line)
         elif line:
             if not self.story:
-                raise ParsingError("No story has been defined")
+                raise SyntaxError("No story has been defined")
             
             blocker = False
             if line.startswith("B:"):

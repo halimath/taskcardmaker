@@ -1,0 +1,34 @@
+<div id="syntax-help" title="Syntax help" class="hidden">
+  <h3>Syntax reference</h3>
+  <h4>Start a new story</h4>
+  <p>
+    Every <em>task</em> must be part of a <em>story</em>. A task is always
+    part of the story defined previously. To define a story add a line starting
+    with <code>S:</code> followed by an identifier (a short label that is added
+    to every task card) a pipe and a description.
+  </p>
+  <pre>
+S:ID-XXX|Test the taskcardmaker        
+  </pre>
+  
+  <h4>Add a task</h4>
+  <p>
+    Tasks are defined by writing text on a line on its own. If you want to add
+    one or more tags to the bottom of the task, use a pipe to separate task text
+    from tags. Tags should be separated by comma.
+  </p>
+  <pre>
+Create some tasks
+Create some more tasks|DESIGN
+Print tasks|PDF,PRINT
+  </pre>
+  
+  <h4>Add a blocker task</h4>
+  <p>
+    Blocker tasks (shown in red instead of yellow) are defined just like normal
+    tasks except that the line starts with <code>B:</code>.
+  </p>
+  <pre>
+B:Create blocker tasks
+  </pre>
+</div>

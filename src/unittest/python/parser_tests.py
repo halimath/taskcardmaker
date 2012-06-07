@@ -1,10 +1,23 @@
 import unittest
 
-from taskcardmaker.parser import TaskCardParser
+from taskcardmaker.parser import TaskCardParser, SyntaxError
 
 class TaskCardParserTest (unittest.TestCase):
     def setUp (self):
         self.parser = TaskCardParser()
+        
+    def test_should_raise_syntax_error_when_story_line_has_syntax_error (self):
+        self.assertRaises(SyntaxError, self.parser.parse, "S:")
+
+    def test_should_parse_story_when_only_id_is_given (self):
+        self.parser.parse("S:SPAM")
+
+        project = self.parser.project
+        self.assertEquals(1, len(project.stories))
+        
+        story = project.stories[0]
+        self.assertEquals("SPAM", story.identifier)
+        self.assertEquals("SPAM", story.title)        
         
     def test_should_parse_single_task (self):
         self.parser.parse("P:I18N", "S:IP-275|Sortierung nach Aktualitaet",

@@ -91,6 +91,8 @@ taskcardmaker.Preferences = function(containerExpr) {
 };
 
 taskcardmaker.Editor = function() {
+	var that = this;
+	
 	this.downloadPdf = function() {
 		jQuery("#pdf-form").submit();
 	};
@@ -161,7 +163,7 @@ taskcardmaker.Editor = function() {
 					if (data.status === 200) {
 						showPreviewObject(data.project);
 					} else {
-						showError(data.message);
+						that.showError(data.message);
 					}
 
 					if (withAnimation) {

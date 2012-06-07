@@ -30,7 +30,7 @@
 <div id="error" class="hidden"></div>
 	
 <div id="preview-container">
-  <h2>Preview</h2>
+  <h2>Preview</h2>   
 	<div id="preview"></div>
 	<div id="wait-indicator" class="hidden">Loading...</div>
 </div>
@@ -46,48 +46,21 @@ B:Create blocker tasks
 Print tasks|PDF
     </textarea>
   </form>
+  <div class="hint">
+    Press <code>&lt;CTRL&gt;+&lt;RET&gt;</code> or click
+    <a href="#" id="link-preview">Preview</a> to update.    
+  </div>
 </div>
-       
-<div id="syntax-help" title="Syntax help" class="hidden">
-  <h3>Syntax reference</h3>
-  <h4>Start a new story</h4>
-  <p>
-    Every <em>task</em> must be part of a <em>story</em>. A task is always
-    part of the story defined previously. To define a story add a line starting
-    with <code>S:</code> followed by an identifier (a short label that is added
-    to every task card) a pipe and a description.
-  </p>
-  <pre>
-S:ID-XXX|Test the taskcardmaker	       
-  </pre>
-  
-  <h4>Add a task</h4>
-  <p>
-    Tasks are defined by writing text on a line on its own. If you want to add
-    one or more tags to the bottom of the task, use a pipe to separate task text
-    from tags. Tags should be separated by comma.
-  </p>
-  <pre>
-Create some tasks
-Create some more tasks|DESIGN
-Print tasks|PDF,PRINT
-  </pre>
-  
-  <h4>Add a blocker task</h4>
-  <p>
-    Blocker tasks (shown in red instead of yellow) are defined just like normal
-    tasks except that the line starts with <code>B:</code>.
-  </p>
-  <pre>
-B:Create blocker tasks
-  </pre>
-</div>
+
+{% include "syntaxHelp.html" %}
 	
 <div style="clear: both;"></div>
 
 <div id="preferences" class="hidden">
     <input type="checkbox" name="autoupdate" id="input-autoupdate" />
-    <label for="input-autoupdate">Update the preview everytime I press &lt;RETURN&gt;</label><br />
+    <label for="input-autoupdate">
+      Update the preview everytime I press <code>&lt;RET&gt;</code>
+    </label><br />
 {% comment %}
     <input type="checkbox" name="generateStoryCards" id="input-generate-story-cards" />
     <label for="input-autoupdate">Generate story card for each story</label><br />
@@ -111,7 +84,7 @@ function toggleHelp () {
 function applySizes() {
 		var height = $(window).height();
 		var containerHeight = height - 40 - 70 - 20;
-		var textAreaHeight = containerHeight - 80;
+		var textAreaHeight = containerHeight - 100;
 
 		var width = $(window).width();
 
@@ -134,13 +107,17 @@ function applySizes() {
 }
 
 function updatePreviewWhenEnabled (keyEvent) {
-    if (!jQuery("#input-autoupdate").attr("checked")) {
-        return;
-    }
     var code = (keyEvent.keyCode ? keyEvent.keyCode : keyEvent.which);
-    if (code === 13) {
-        editor.showPreview();
+
+    if (code !== 13 && code !== 10) {
+    	return;
     }
+    
+    if (code === 13 && !jQuery("#input-autoupdate").attr("checked")) {
+    	return;
+    }
+    
+    editor.showPreview();
 } 
 
 var preferences;

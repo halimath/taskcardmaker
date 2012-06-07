@@ -158,3 +158,8 @@ textarea:focus {
     font-family: helvetiva, arial, sans-serif;
     font-size: 11pt;
 }
+
+.hint {
+  font-size: .9em;
+  font-weight: normal;	
+}
