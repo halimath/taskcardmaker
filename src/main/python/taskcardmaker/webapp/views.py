@@ -58,7 +58,7 @@ def do_send_as_email (request):
         output = StringIO.StringIO()
         render_tasks(parse_lines(request.raw_post_data.split("\n")), output)
         
-        mail.send_mail(sender="Taskcardmaker <noreply@taskcardmaker.appspot.com>",
+        mail.send_mail(sender="Taskcardmaker <noreply@taskcardmaker.appspotmail.com>",
               to=users.get_current_user().email(),
               subject="Your Task Cards",
               attachments=[("taskcards.pdf", output.getvalue())],
