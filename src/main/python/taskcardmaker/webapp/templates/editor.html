@@ -8,6 +8,7 @@
 {% block top %}
 <span class="right">
   {{current_user.nickname}} |
+  <a href="#" id="link-preferences">Preferences</a> |
   <a href="{{logout_url}}">Logout</a>
 </span>
 
@@ -20,11 +21,9 @@
 {% block main %}
 <div id="menu">
     <ul>
-        <li><a href="#" id="link-preview">Preview</a></li>
         <li><a href="#" id="link-download-pdf">Download PDF</a></li>
         <li><a href="#" id="link-email">Send PDF via Email</a></li>
-        <li><a href="#" id="link-preferences">Preferences</a></li>
-        <li><a href="#" id="link-help">Help</a></li>
+        <li><a href="#" id="link-help">Syntax Help</a></li>
     </ul>
 </div>
 
@@ -41,7 +40,7 @@
 
   <form action="/pdf" method="POST" id="pdf-form">
     <textarea name="source" id="editor" rows="20">
-S:ID-XXX|Test the taskcardmaker          
+S:ID-XX|Test the taskcardmaker          
 Create some tasks
 B:Create blocker tasks
 Print tasks|PDF

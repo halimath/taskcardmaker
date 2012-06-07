@@ -1,5 +1,6 @@
 import json
 import django
+import os
 import StringIO
 import sys
 
@@ -22,6 +23,7 @@ def do_editor (request):
     return render_template('editor.html', **locals())
 
 def do_info (request):
+    version_id = os.environ['CURRENT_VERSION_ID']
     return render_template('info.html', **locals())
 
 def do_parse (request):
@@ -105,4 +107,4 @@ def render_template (template, **values):
     return render_to_response(template, values)
 
 def render_version (version):
-    return "%s.%s.%s-%s" % (version[0], version[1], version[2], version[3])
+    return "%s.%s.%s%s" % (version[0], version[1], version[2], "-" + version[3] if version[3] else "")
