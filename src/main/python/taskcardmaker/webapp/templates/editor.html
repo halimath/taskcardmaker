@@ -22,6 +22,7 @@
     <ul>
         <li><a href="#" id="link-preview">Preview</a></li>
         <li><a href="#" id="link-download-pdf">Download PDF</a></li>
+        <li><a href="#" id="link-email">Send PDF via Email</a></li>
         <li><a href="#" id="link-preferences">Preferences</a></li>
         <li><a href="#" id="link-help">Help</a></li>
     </ul>
@@ -131,6 +132,7 @@ jQuery(document).ready(function() {
 	  editor.showPreview(true);
   });
   jQuery("#link-download-pdf").click(editor.downloadPdf);
+  jQuery("#link-email").click(editor.sendEmail);
   jQuery("#link-help").click(toggleHelp);
   jQuery("#link-preferences").click(function () {
 	  preferences.toggle();

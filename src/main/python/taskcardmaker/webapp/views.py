@@ -1,11 +1,13 @@
 import json
 import django
+import StringIO
 import sys
 
 from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse
 
 from google.appengine.api import users
+from google.appengine.api import mail
 
 import taskcardmaker
 
@@ -23,16 +25,14 @@ def do_info (request):
     return render_template('info.html', **locals())
 
 def do_parse (request):
-    parser = taskcardmaker.TaskCardParser()
-    lines = request.raw_post_data.split("\n")
     response = {
       'status': 200,
       'message': 'ok'
     }
 
     try:
-        parser.parse(*lines)
-        response['project'] = parser.project.as_map() 
+        project = parse_lines(request.raw_post_data.split("\n"))
+        response['project'] = project.as_map() 
     except Exception as e:
         response['status'] = 400
         response['message'] = str(e)
@@ -41,23 +41,58 @@ def do_parse (request):
                         content_type="application/json")
     
 def do_download_pdf (request):
-    source = request.POST['source']
-    
-    parser = taskcardmaker.TaskCardParser()
-    parser.parse(*(source.split("\n")))
-    
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=taskcards.pdf'
+
+    render_tasks(parse_lines(request.POST['source'].split("\n")), response)    
     
-    renderer = taskcardmaker.Renderer(response, 
+    return response
+
+def do_send_as_email (request):
+    response = {
+      'status': 200,
+      'message': 'ok'
+    }
+
+    try:
+        output = StringIO.StringIO()
+        render_tasks(parse_lines(request.raw_post_data.split("\n")), output)
+        
+        mail.send_mail(sender="Taskcardmaker <noreply@taskcardmaker.appspot.com>",
+              to=users.get_current_user().email(),
+              subject="Your Task Cards",
+              attachments=[("taskcards.pdf", output.getvalue())],
+              body="""
+Dear %s:
+
+Please find attached your taskcards ready for printing.
+
+Your Taskcardmaker Team
+""" % (users.get_current_user().nickname()))
+        output.close()
+
+    except Exception as e:
+        response['status'] = 400
+        response['message'] = str(e)
+        
+    return HttpResponse(json.dumps(response),
+                        content_type="application/json")    
+
+def render_tasks (project, output_stream):
+    renderer = taskcardmaker.Renderer(output_stream, 
                                       'Tasks', 
                                       'Taskcardmaker %s' % taskcardmaker.version)
     
-    for story in parser.project.stories:
+    for story in project.stories:
         renderer.render_story(story)
         
-    renderer.close()
-    return response    
+    renderer.close()        
+
+def parse_lines (lines):
+    parser = taskcardmaker.TaskCardParser()
+    parser.parse(*lines)
+    
+    return parser.project
 
 def render_template (template, **values):
     values["version"] = render_version(taskcardmaker.version_info)

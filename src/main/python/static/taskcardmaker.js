@@ -96,6 +96,24 @@ taskcardmaker.Editor = function() {
 	this.downloadPdf = function() {
 		jQuery("#pdf-form").submit();
 	};
+	
+	this.sendEmail = function () {
+		var sourceCode = jQuery("#editor").val();
+
+		jQuery.ajax({
+			type : "POST",
+			url : "/email",
+			data : sourceCode,
+			dataType : "json",
+			success : function(data) {
+				if (data.status === 200) {
+					that.showMessage("Email has been sent.");
+				} else {
+					that.showError(data.message);
+				}
+			}
+		});
+	};
 
 	this.showError = function(text) {
 		jQuery("#preview").html('<span class="error">' + text + '</span>');
