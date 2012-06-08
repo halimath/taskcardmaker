@@ -1,5 +1,7 @@
+# width 60
+# font_size 15
 P:Lorem ipsum dolor
-S:XX-0000|Lorem ipsum dolor sit amet, consectetuer adipiscing elit
+S:XX|Lorem ipsum dolor sit amet, consectetuer adipiscing elit
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.|Sed,consequat 
 Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.|Sed,consequat 
 B:Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.|Sed,consequat

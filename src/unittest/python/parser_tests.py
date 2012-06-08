@@ -5,6 +5,26 @@ from taskcardmaker.parser import TaskCardParser, SyntaxError
 class TaskCardParserTest (unittest.TestCase):
     def setUp (self):
         self.parser = TaskCardParser()
+
+    def test_should_raise_syntax_error_when_unknown_settings_is_used  (self):
+        self.assertRaises(SyntaxError, self.parser.parse, "# spam eggs")
+
+    def test_should_raise_syntax_error_when_width_setting_has_error  (self):
+        self.assertRaises(SyntaxError, self.parser.parse, "# width caboom")
+        
+    def test_should_parse_width_setting (self):
+        self.parser.parse("# width 70")
+        self.assertEquals(70, self.parser.settings.card_width)
+
+    def test_should_raise_syntax_error_when_font_size_setting_has_error  (self):
+        self.assertRaises(SyntaxError, self.parser.parse, "# font_size caboom")
+        
+    def test_should_parse_width_setting (self):
+        self.parser.parse("# font_size 13")
+        self.assertEquals(13, self.parser.settings.font_size)
+
+    def test_should_parse_multiple_settings (self):
+        self.parser.parse("# font_size 13", "#width 13")
         
     def test_should_raise_syntax_error_when_story_line_has_syntax_error (self):
         self.assertRaises(SyntaxError, self.parser.parse, "S:")

@@ -9,10 +9,8 @@
     if you omit it the ID of the story is used (in such a case omit the pipe, 
     too)
   </p>
-  <pre>
-S:ID-XXX|Test the taskcardmaker
-S:ID-XXX
-  </pre>
+  <pre>S:ID-XXX|Test the taskcardmaker
+S:ID-XXX</pre>
   
   <h4>Add a task</h4>
   <p>
@@ -20,18 +18,32 @@ S:ID-XXX
     one or more tags to the bottom of the task, use a pipe to separate task text
     from tags. Tags should be separated by comma.
   </p>
-  <pre>
-Create some tasks
+  <pre>Create some tasks
 Create some more tasks|DESIGN
-Print tasks|PDF,PRINT
-  </pre>
+Print tasks|PDF,PRINT</pre>
   
   <h4>Add a blocker task</h4>
   <p>
     Blocker tasks (shown in red instead of yellow) are defined just like normal
     tasks except that the line starts with <code>B:</code>.
   </p>
-  <pre>
-B:Create blocker tasks
-  </pre>
+  <pre>B:Create blocker tasks</pre>
+
+  <h4>Card Width</h4>
+  <p>
+    You can customize the card width. The card width is given in milli meters 
+    (mm). The default is 80 mm. Notice that too small or too large values will
+    result in bad rendering and layout errors. Reasonable values are between 60
+    and 100 mm.  
+  </p>
+  <pre># width 75</pre>
+
+  <h4>Font Size</h4>
+  <p>
+    You can customize the base font size that is used. 
+    The font size is given in points. The default is 14 pt.
+    The given base font size will be used to calculate all actual font sizes
+    (i.e. story identifiers have a larger font). 
+  </p>
+  <pre># font_size 13</pre>
 </div>

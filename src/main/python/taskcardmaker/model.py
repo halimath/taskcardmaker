@@ -1,3 +1,9 @@
+
+class Settings (object):
+    def __init__ (self):
+        self.card_width = 80
+        self.font_size = 14
+
 class Project (object):
     def __init__ (self, name=None):
         self.name = name or ""

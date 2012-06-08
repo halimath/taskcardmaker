@@ -33,7 +33,7 @@ def do_parse (request):
     }
 
     try:
-        project = parse_lines(request.raw_post_data.split("\n"))
+        project, _ = parse_lines(request.raw_post_data.split("\n"))
         response['project'] = project.as_map() 
     except Exception as e:
         response['status'] = 400
@@ -46,7 +46,9 @@ def do_download_pdf (request):
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=taskcards.pdf'
 
-    render_tasks(parse_lines(request.POST['source'].split("\n")), response)    
+    project, settings = parse_lines(request.POST['source'].split("\n"))
+
+    render_tasks(project, settings, response)
     
     return response
 
@@ -58,7 +60,8 @@ def do_send_as_email (request):
 
     try:
         output = StringIO.StringIO()
-        render_tasks(parse_lines(request.raw_post_data.split("\n")), output)
+        project, settings = parse_lines(request.raw_post_data.split("\n"))
+        render_tasks(project, settings, output)
         
         mail.send_mail(sender="Taskcardmaker <noreply@taskcardmaker.appspotmail.com>",
               to=users.get_current_user().email(),
@@ -80,10 +83,12 @@ Your Taskcardmaker Team
     return HttpResponse(json.dumps(response),
                         content_type="application/json")    
 
-def render_tasks (project, output_stream):
+def render_tasks (project, settings, output_stream):
     renderer = taskcardmaker.Renderer(output_stream, 
                                       'Tasks', 
                                       'Taskcardmaker %s' % taskcardmaker.version)
+    
+    renderer.apply_settings(settings)
     
     for story in project.stories:
         renderer.render_story(story)
@@ -94,7 +99,7 @@ def parse_lines (lines):
     parser = taskcardmaker.TaskCardParser()
     parser.parse(*lines)
     
-    return parser.project
+    return parser.project, parser.settings
 
 def render_template (template, **values):
     values["version"] = render_version(taskcardmaker.version_info)

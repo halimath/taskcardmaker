@@ -37,8 +37,12 @@ def main ():
     
     sys.stdout.write(" done. Found %d stories.\nRendering stories to %s..." % (len(project.stories), options.output_file))
     renderer = Renderer(options.output_file, "Tasks for " + project.name)
+    renderer.apply_settings(parser.settings)
     for story in project.stories:
         renderer.render_story(story)
         
     renderer.close()
     sys.stdout.write(" finished.\n")
+    
+if __name__ == '__main__':
+    main()

@@ -162,3 +162,20 @@ pre {
 	padding: 2px;
 	background-color: #FDF9E6;
 }
+
+#settings a:link,
+#settings a:visited,
+#settings a:active {
+	text-decoration: none;
+	color: #00f
+}
+
+#settings a:hover {
+	text-decoration: underline;
+}
+
+#width-slider {
+	display: inline-block;
+	width: 100px;
+	margin-right: 15px;
+}

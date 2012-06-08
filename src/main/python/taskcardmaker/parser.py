@@ -1,5 +1,5 @@
 
-from taskcardmaker.model import Project, Story, Task
+from taskcardmaker.model import Project, Story, Task, Settings
 
 class SyntaxError (Exception):
     def __init__ (self, message):
@@ -10,6 +10,7 @@ class SyntaxError (Exception):
 
 class TaskCardParser (object):
     def __init__ (self):
+        self.settings = Settings()
         self.project = Project()
         self.story = None
         
@@ -34,6 +35,8 @@ class TaskCardParser (object):
                 self.project.add_story(self.story)
             except ValueError:
                 raise SyntaxError("Syntax error in story line: '%s'" % line)
+        elif line.startswith("#"):
+            self.parse_settings_line(line)
         elif line:
             if not self.story:
                 raise SyntaxError("No story has been defined")
@@ -52,3 +55,20 @@ class TaskCardParser (object):
                 tags = map(lambda x: x.strip(), elements[1].split(','))
                 
             self.story.add_task(Task(task.strip(), tags, blocker))
+    
+    def parse_settings_line (self, line):
+        parts = line[1:].strip().split(' ')
+        key = parts[0]
+        value = ' '.join(parts[1:])
+        if key.lower() == "width":
+            try:
+                self.settings.card_width = int(value)
+            except ValueError:
+                raise SyntaxError("Invalid card width '%s'" % value)
+        elif key.lower() == "font_size":
+            try:
+                self.settings.font_size = int(value)
+            except ValueError:
+                raise SyntaxError("Invalid font size '%s'" % value)
+        else:
+            raise SyntaxError("Unknown setting '%s'" % key)

@@ -37,8 +37,17 @@
 	
 <div id="editor-container">
 	<h2>Editor</h2>
-
   <form action="/pdf" method="POST" id="pdf-form">
+    <div id="settings">
+      <span class="hint right">
+		    <a href="#" id="link-preview">Update preview (<code>CTRL+RET</code>)</a>    
+      </span>
+      
+      <span class="hint">
+        <a href="#" id="link-help-embed"><strong>Did you know?</strong></a> You can set the size of the cards as well 
+        as the font size.  
+      </span>
+    </div>
     <textarea name="source" id="editor" rows="20">
 S:ID-XX|Test the taskcardmaker          
 Create some tasks
@@ -46,10 +55,6 @@ B:Create blocker tasks
 Print tasks|PDF
     </textarea>
   </form>
-  <div class="hint">
-    Press <code>&lt;CTRL&gt;+&lt;RET&gt;</code> or click
-    <a href="#" id="link-preview">Preview</a> to update.    
-  </div>
 </div>
 
 {% include "syntaxHelp.html" %}
@@ -133,6 +138,7 @@ jQuery(document).ready(function() {
   jQuery("#link-download-pdf").click(editor.downloadPdf);
   jQuery("#link-email").click(editor.sendEmail);
   jQuery("#link-help").click(toggleHelp);
+  jQuery("#link-help-embed").click(toggleHelp);
   jQuery("#link-preferences").click(function () {
 	  preferences.toggle();
   });
