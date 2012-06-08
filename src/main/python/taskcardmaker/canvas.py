@@ -53,14 +53,14 @@ class Canvas (object):
                                text)
         return self
     
-    def fill_rect (self, upper_left, width, height=None):
+    def draw_rect (self, upper_left, width, height=None, fill=True):
         if not height:
             height = width
         self.canvas.rect(upper_left.x * self.scaling, 
                          (upper_left.y - height) * self.scaling, 
                          width * self.scaling, 
                          height * self.scaling, 
-                         fill=1)
+                         fill=1 if fill else 0)
     
     def line (self, start_point, end_point):
         self.canvas.line(start_point.x * self.scaling, 

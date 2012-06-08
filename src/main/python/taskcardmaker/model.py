@@ -3,6 +3,7 @@ class Settings (object):
     def __init__ (self):
         self.card_width = 80
         self.font_size = 14
+        self.render_check_box = True
 
 class Project (object):
     def __init__ (self, name=None):
