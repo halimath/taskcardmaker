@@ -19,12 +19,19 @@ class TaskCardParserTest (unittest.TestCase):
     def test_should_raise_syntax_error_when_font_size_setting_has_error  (self):
         self.assertRaises(SyntaxError, self.parser.parse, "# font_size caboom")
         
-    def test_should_parse_width_setting (self):
+    def test_should_parse_font_size_setting (self):
         self.parser.parse("# font_size 13")
         self.assertEquals(13, self.parser.settings.font_size)
 
     def test_should_parse_multiple_settings (self):
         self.parser.parse("# font_size 13", "#width 13")
+        
+    def test_should_raise_exception_when_parsing_checkbox_setting_with_invalid_value (self):
+        self.assertRaises(SyntaxError, self.parser.parse, "# checkboxes spam")
+
+    def test_should_disable_checkboxes_when_parsing_checkbox_setting (self):
+        self.parser.parse("# checkboxes no")
+        self.assertFalse(self.parser.settings.render_check_box)
         
     def test_should_raise_syntax_error_when_story_line_has_syntax_error (self):
         self.assertRaises(SyntaxError, self.parser.parse, "S:")

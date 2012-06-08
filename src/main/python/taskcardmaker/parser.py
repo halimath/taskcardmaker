@@ -70,5 +70,12 @@ class TaskCardParser (object):
                 self.settings.font_size = int(value)
             except ValueError:
                 raise SyntaxError("Invalid font size '%s'" % value)
+        elif key.lower() == "checkboxes":
+            if value == "yes":
+                self.settings.render_check_box = True
+            elif value == "no":
+                self.settings.render_check_box = False
+            else:
+                raise SyntaxError("Invalid checkboxes value '%s'" % value)
         else:
             raise SyntaxError("Unknown setting '%s'" % key)
