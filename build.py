@@ -22,7 +22,7 @@ authors = [Author("Alexander Metzner", "alexander.metzner@gmail.com")]
 
 @init
 def set_properties (project):
-    project.depends_on("reportlab")
+    #project.depends_on("reportlab")
     
     project.set_property("dir_dist_scripts", 'scripts')
 
