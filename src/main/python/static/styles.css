@@ -9,12 +9,17 @@ p {
 	padding: 1em 2em;
 }
 
-a:link,a:active,a:visited {
+a:link,
+a:active,
+a:visited {
+	color: #3030FF;
 	text-decoration: none;
+	font-weight: bold;
 }
 
 a:hover {
-	text-decoration: underline;
+	color: #5050FF;
+	text-decoration: none;
 }
 
 h1 {
@@ -25,6 +30,15 @@ h1 {
 h2 {
 	font-weight: bold;
 	font-size: 1.4em;
+}
+
+.index h1, 
+.index h2,
+.index h3,
+.index h4,
+.index h5,
+.index h6 {
+	font-family: serif;
 }
 
 .hidden {
@@ -41,18 +55,37 @@ h2 {
 	margin: 0;
 	padding: 4px 20px;
 	border-bottom: 1px solid darkgray;
-	background-color: #EEEEEE;
-	background: -moz-linear-gradient(top, #FAFAFA, #EEEEEE);
-	background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA),
-		to(#EEEEEE) );
+	
+	background: #404040; /* Old browsers */
+	background: -moz-linear-gradient(top, #404040 0%, #606060 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#404040), color-stop(100%,#606060)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #404040 0%,#606060 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #404040 0%,#606060 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #404040 0%,#606060 100%); /* IE10+ */
+	background: linear-gradient(top, #404040 0%,#606060 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#404040', endColorstr='#606060',GradientType=0 ); /* IE6-9 */
+	
+	color: #dbdbdb;
 }
 
-.top h1 {
+.top a:link,
+.top a:active,
+.top a:visited {
+	color: #dbdbdb;
+	font-weight: bold;
+}
+
+.top a:hover {
+	color: #ffffff;
+}
+
+.top h1 {	
 	display: inline;
-	color: #2b6dd7;
 	size: 1.4em;
+	font-family: serif;  
 	font-weight: bold;
 	padding: 0 2em;
+	height: 4em;
 }
 
 .footer {
@@ -62,16 +95,23 @@ h2 {
 	text-align: center;
 	font-size: .9em;
 	color: #909090;
-	background-color: #EEEEEE;
-	background: -moz-linear-gradient(top, #EEEEEE, #FAFAFA);
-	background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE),
-		to(#FAFAFA) );
+  height: 70px;
+  position: static;
+	
+	background: #606060; /* Old browsers */
+	background: -moz-linear-gradient(top, #606060 0%, #404040 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606060), color-stop(100%,#404040)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #606060 0%,#404040 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #606060 0%,#404040 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #606060 0%,#404040 100%); /* IE10+ */
+	background: linear-gradient(top, #606060 0%,#404040 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606060', endColorstr='#404040',GradientType=0 ); /* IE6-9 */ 
 }
 
 .footer div a:link,
 .footer div a:active,
 .footer div a:visited {
-    text-decoration: none;
+  text-decoration: none;
 	color: #909090;
 }
 
@@ -170,10 +210,67 @@ textarea:focus {
 	padding: 4px 10px;
   border: 1px solid #909090;
   color: #303030;
-  background-color: #fcdede;
+  border-radius: 5px;
+  
+	background: #eeeeee; /* Old browsers */
+	background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
+	background: linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 }
 
 table.data th {
   text-align: right;
   padding-right: 1em;
+}
+
+.dialog {
+  padding: 4px;
+  background-color: #fff;
+
+  z-index: 100;
+  position: fixed;
+  
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  
+  -moz-box-shadow: 0px 5px 5px #aaa;
+  -webkit-box-shadow: 0px 5px 5px #aaa;
+  box-shadow: 0px 5px 5px #aaa;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+}
+
+legend {
+  color: #1C94C4;
+  font-weigth: bold;
+}
+
+#close-dialog-link {
+  float: right;
+}
+
+.index .main {
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#menu a:link,
+#menu a:active,
+#menu a:visited {
+    color: #2b6dd7;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#menu a:hover {
+    color: #4b8df7;
+    font-weight: bold;
 }

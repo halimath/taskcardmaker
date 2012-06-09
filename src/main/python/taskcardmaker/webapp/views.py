@@ -13,12 +13,14 @@ from google.appengine.api import mail
 import taskcardmaker
 
 def do_index (request):
+    page = "index"
     if users.get_current_user():
         return redirect("/editor")
     debug = request.GET.get("debug", "") == "true"
     return render_template('index.html', **locals())
 
 def do_editor (request):
+    page = "editor"
     debug = request.GET.get("debug", "") == "true" 
     return render_template('editor.html', **locals())
 

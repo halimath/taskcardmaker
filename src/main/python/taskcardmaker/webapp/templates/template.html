@@ -1,12 +1,10 @@
 <html>
   <head>
-    <title>{% block title %}{% endblock %} - Taskcardmaker</title> 
-    {% block head %}{% endblock %}
+    <title>{% block title %}{% endblock %} - Taskcardmaker</title>
 
     <link rel="stylesheet" href="/static/styles.css" media="screen" />
-    <link rel="stylesheet" href="/static/ui.css" media="screen" />
     <link rel="stylesheet"
-      href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/redmond/jquery-ui.css"
+      href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/themes/black-tie/jquery-ui.css"
       media="screen" />
 
     <script type="text/javascript"
@@ -14,8 +12,11 @@
     <script type="text/javascript"
       src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/taskcardmaker.js"></script>
+
+    {% block head %}{% endblock %}
   </head>
-  <body>
+  
+  <body class="{{page}}">
     <div class="content">
 			<div class="top">{% block top %}{% endblock %}</div>
 			<div class="main">{% block main %}{% endblock %}</div>

@@ -6,11 +6,11 @@
 }
 
 .footer {
-	left: 0;
-	right: 0;
-	height: 70px;
-	position: fixed;
-	bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  position: fixed;
+  bottom: 0;
 }
 
 #menu {
@@ -31,13 +31,6 @@
 	list-style-type: none;
 	display: inline;
 	padding-left: 20px;
-}
-
-#menu a:link,
-#menu a:active,
-#menu a:visited {
-    color: #2b6dd7;
-    text-decoration: none;
 }
 
 #editor-container,#preview-container {
