@@ -4,6 +4,7 @@
 
 {% block top %}
 <h1>Taskcardmaker</h1>
+Agile Task Cards Made Easy
 {% endblock %}
 
 {% block main %}
@@ -19,7 +20,10 @@
     </span>
 </noscript>
 
-<h2>Welcome to Taskcardmaker</h2>
+<p class="strong">
+  Taskcardmaker is a tool for agile software development teams that use
+  planing boards and task cards to organize their work.
+</p>
 
 <div id="whats-new">
   <h3>What's new?</h3>
@@ -44,27 +48,38 @@
 </div>
 
 <p>
-	Taskcardmaker is an easy-to-use tool to assist you when
-	creating task cards. Task cards are typically used in agile software
-	development (such as Scrum or Kanban) but can be usefull in other
-	situations as well.
-</p>
-
-<p>
-	Taskcardmaker makes it easy to author task cards even in a larger group of people
-	and will generate a ready to print PDF file.
-</p>
-
-<p>
-	You can use Taskcardmaker free of charge and create as many taskcards as you want.
-</p>
-
-<p>
-	<a href="{{login_url}}">Login with your Google account</a> and start
-	creating tasks.
+  <span class="right-column">
+    You can also download a command line version of taskcardmaker and create
+    PDFs online. All you need is an installed version of 
+    <a href="http://www.python.org/" alt="Python Homepage">Python</a>.<br /><br />
+    <a href="https://github.com/halimath/taskcardmaker/downloads" alt="Downloads">Download</a>
+    the command line version here.<br /><br />
+    Taskcardmaker is open-source software published under the terms of the
+    <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License</a>.
+    That means that you can freely download, copy, modify or distribute the 
+    software.    
+  </span>
+	You can use Taskcardmaker online free of charge and create as many taskcards 
+	as you want. <br /><br />
+	{% if current_user %}
+	  <a href="/editor">Use the online version</a> to create task cards.
+	{% else %}
+	  <a href="{{login_url}}">Login with your Google account</a> to use the online
+	version.
+	{% endif %}<br /><br />
+	The online version is powered by 
+	<a href="https://developers.google.com/appengine/">Google App Engine</a>.	
 </p>
 
 <div class="clear"/>
+
+<p>
+	Taskcardmaker is an easy-to-use tool to assist you when
+	creating task cards. Task cards are typically used in agile software
+	development (such as Scrum or Kanban) but can be usefull in other
+	situations as well. Taskcardmaker will produce readable and easy to cut
+	PDFs that you can print, cut and stick on your planing board.
+</p>
 
 <div class="small hidden" id="browser-hint">
 	Taskcardmaker requires an modern browser. Using <a href="https://www.google.com/chrome/">Google Chrome</a>

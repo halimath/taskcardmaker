@@ -14,8 +14,6 @@ import taskcardmaker
 
 def do_index (request):
     page = "index"
-    if users.get_current_user():
-        return redirect("/editor")
     debug = request.GET.get("debug", "") == "true"
     return render_template('index.html', **locals())
 
@@ -107,7 +105,7 @@ def render_template (template, **values):
     values["version"] = render_version(taskcardmaker.version_info)
     values["django_version"] = render_version(django.VERSION)
     values["python_version"] = render_version(sys.version_info)
-    values["login_url"] = users.create_login_url("/")
+    values["login_url"] = users.create_login_url("/editor")
     values["logout_url"] = users.create_logout_url("/")
     values["current_user"] = users.get_current_user()
     
