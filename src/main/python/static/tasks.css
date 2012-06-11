@@ -8,7 +8,7 @@
 .footer {
   left: 0;
   right: 0;
-  height: 70px;
+  height: 58px;
   position: fixed;
   bottom: 0;
 }
@@ -154,17 +154,6 @@ pre {
 	border: 1px solid darkgray;
 	padding: 2px;
 	background-color: #FDF9E6;
-}
-
-#settings a:link,
-#settings a:visited,
-#settings a:active {
-	text-decoration: none;
-	color: #00f
-}
-
-#settings a:hover {
-	text-decoration: underline;
 }
 
 #width-slider {

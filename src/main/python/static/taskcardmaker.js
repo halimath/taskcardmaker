@@ -1,23 +1,6 @@
 window.taskcardmaker = window.taskcardmaker || {};
 window.ui = window.ui || {};
 
-ui.Dialog = function(selector, title) {
-	var dialog = jQuery(selector).dialog({
-		autoOpen : false,
-		modal : true,
-		title : title,
-		buttons: { "Ok": function() { $(this).dialog("close"); }}
-	});
-
-	this.toggle = function() {
-		if (dialog.dialog('isOpen')) {
-			dialog.dialog('close');
-		} else {
-			dialog.dialog('open');
-		}
-	};
-};
-
 taskcardmaker.Preferences = function(containerExpr) {
 	var that = this;
 
@@ -60,10 +43,30 @@ taskcardmaker.Preferences = function(containerExpr) {
 	};
 
 	this.load();
+	
+	var position = [jQuery(window).width() - 430, 
+	                30];
+	
+	var dialog = jQuery(containerExpr).dialog({
+		autoOpen : false,
+		modal : false,
+		resizable: false,
+		position: position, 
+		title : "Preferences",
+		draggable: false,
+		width: 400,
+		dialogClass: "preferences-dialog"
+	});
 
-	var dialog = new ui.Dialog(containerExpr, 'Preferences');
-	var container = jQuery(containerExpr);
-	container.hide();
+	dialog.toggle = function() {
+		if (dialog.dialog('isOpen')) {
+			dialog.dialog('close');
+		} else {
+			dialog.dialog('open');
+		}
+	};
+
+	dialog.hide();
 
 	jQuery("#input-autoupdate").attr("checked", this.autoUpdatePreview ? "checked" : "");
 	jQuery("#input-autoupdate").change(function() {
