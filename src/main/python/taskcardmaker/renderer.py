@@ -1,5 +1,6 @@
 from taskcardmaker.canvas import Canvas, Point
 from taskcardmaker.model import Settings
+import taskcardmaker
 
 class Renderer (object):
     PAPER_WIDTH = 210
@@ -8,6 +9,7 @@ class Renderer (object):
     
     def __init__ (self, filenameOrFilelikeObject, title=None, author=None):
         self.current_point = Point(Renderer.INITIAL_X, 287)
+        self.card_written = False
         self.canvas = Canvas(filenameOrFilelikeObject, title, author)
         self.stories_written = 0
         
@@ -26,29 +28,34 @@ class Renderer (object):
         self.settings = settings
         
     def render_story (self, story):
-        self._render_box((.5, .8, 1))
-        self._render_story_box_lines()
-        
-        self._render_story_identifier(story)
-        self._render_story_title(story)
+        self.move_to_next_box()
 
-        self._move_to_next_box()
-              
+        self.render_box((.5, .8, 1))
+        self.render_story_box_lines()
+        
+        self.render_story_identifier(story)
+        self.render_story_title(story)
+
         for task in story.tasks:
             self.render_task(task)        
         
     def render_task (self, task):
-        self._render_box((1, .5, .5) if task.blocker else (1, 1, .5))
-        self._render_task_box_lines()
-        self._render_task_title(task)
+        self.move_to_next_box()
+
+        self.render_box((1, .5, .5) if task.blocker else (1, 1, .5))
+        self.render_task_box_lines()
+        self.render_task_title(task)
         
         self.canvas.select_font(size=self.settings.font_size, family="Helvetica")
-        self._render_task_description(task)
-        self._render_task_tags(task)
-        
-        self._move_to_next_box()
+        self.render_task_description(task)
+        self.render_task_tags(task)
 
-    def _move_to_next_box (self):
+    def move_to_next_box (self):
+        if not self.card_written:
+            self.write_footer()
+            self.card_written = True
+            return
+        
         if self.current_point.x + 2 * self.settings.card_width > Renderer.PAPER_WIDTH:
             self.current_point = self.current_point.move(y= -self.settings.card_width)
             self.current_point.x = Renderer.INITIAL_X
@@ -56,25 +63,32 @@ class Renderer (object):
             self.current_point = self.current_point.move(x=self.settings.card_width)
             
         if self.current_point.y - self.settings.card_width < 10:
-            self._next_page()        
+            self.next_page()        
         
-    def _next_page (self):
+    def next_page (self):
         self.canvas.next_page()
         self.current_point = Point(Renderer.INITIAL_X, 287)
+        self.write_footer()
+
+    def write_footer (self):
+        self.canvas.select_font(size=8, family="Helvetica")
+        footer = "Made with Taskcardmaker %s - http://taskcardmaker.appspot.com - https://github.com/halimath/taskcardmaker" % taskcardmaker.version
+        width = self.canvas.text_width(footer)
+        self.canvas.text(Point((Renderer.PAPER_WIDTH - width) / 2, 5), footer) 
             
-    def _render_story_identifier (self, story):
+    def render_story_identifier (self, story):
         self.canvas.fill_color((0, 0, 0))
         self.canvas.select_font(size=self.settings.font_size * 5, family="Helvetica-Bold")
-        identifier = self._abbreviate_to_width(story.identifier)
+        identifier = self.abbreviate_to_width(story.identifier)
         width = self.canvas.text_width(identifier)
         
         self.canvas.text(self.current_point.move(x=(self.settings.card_width - width) / 2,
                                                  y= -25),
                          identifier)
 
-    def _render_story_title (self, story):
+    def render_story_title (self, story):
         self.canvas.select_font(size=self.settings.font_size * 1.2, family="Helvetica-Bold")
-        lines = self._break_into_lines(story.title, self.settings.card_width - 10)
+        lines = self.break_into_lines(story.title, self.settings.card_width - 10)
         
         i = 0
         for line in lines[0:3]:
@@ -83,32 +97,32 @@ class Renderer (object):
                              line)
             i += 1
             
-    def _render_task_tags (self, task):
+    def render_task_tags (self, task):
         self.canvas.fill_color((.4, .4, .4))
         self.canvas.select_font(size=self.settings.font_size * 1.1, family="Helvetica-Bold")
         tags_string = " | ".join(task.tags)
         width = self.settings.card_width
         if self.settings.render_check_box:
-            width -= self._calculate_check_box_width() + 6
-        tags_string = self._abbreviate_to_width(tags_string, max_width=width)
+            width -= self.calculate_check_box_width() + 6
+        tags_string = self.abbreviate_to_width(tags_string, max_width=width)
         text_width = self.canvas.text_width(tags_string)
         
         self.canvas.text(self.current_point.move(x=(width - text_width) / 2,
                                                  y= -self.settings.card_width + 6),
                          tags_string)
             
-    def _render_task_title (self, task):
+    def render_task_title (self, task):
         self.canvas.fill_color((0, 0, 0))
         self.canvas.select_font(size=self.settings.font_size * 1.1, family="Helvetica-Bold")
-        title = self._abbreviate_to_width(task.story.identifier,
+        title = self.abbreviate_to_width(task.story.identifier,
                                          max_width=self.settings.card_width - 4)
         width = self.canvas.text_width(title)
         
         self.canvas.text(self.current_point.move(x=(self.settings.card_width - width) / 2,
                                                  y= -10), title)
         
-    def _render_task_description(self, task):
-        lines = self._break_into_lines(task.description,
+    def render_task_description(self, task):
+        lines = self.break_into_lines(task.description,
                                       max_width=self.settings.card_width - 10)
         line_number = 1
         if len(lines) > Renderer.MAX_LINES_IN_BOX_DESCRIPTION:
@@ -119,7 +133,7 @@ class Renderer (object):
                              line)
             line_number += 1
             
-    def _abbreviate_to_width (self, text, max_width=None):
+    def abbreviate_to_width (self, text, max_width=None):
         if not max_width:
             max_width = self.settings.card_width
             
@@ -136,7 +150,7 @@ class Renderer (object):
         
         return abbreviated + "..." 
         
-    def _break_into_lines (self, text, max_width=None):
+    def break_into_lines (self, text, max_width=None):
         if not max_width:
             max_width = self.settings.card_width
 
@@ -156,13 +170,13 @@ class Renderer (object):
         
         return result            
 
-    def _render_box (self, background_color):
+    def render_box (self, background_color):
         self.canvas.text_color((0, 0, 0))
         self.canvas.fill_color(background_color)
         self.canvas.draw_rect(self.current_point, self.settings.card_width)
 
 
-    def _render_task_box_lines (self):        
+    def render_task_box_lines (self):        
         self.canvas.line(self.current_point.move(x=4, y= -12),
                          self.current_point.move(x=self.settings.card_width - 4, y= -12))
         
@@ -175,15 +189,15 @@ class Renderer (object):
                                                  y= -self.settings.card_width + 15))
         
         if self.settings.render_check_box:
-            check_box_width = self._calculate_check_box_width()
+            check_box_width = self.calculate_check_box_width()
             self.canvas.draw_rect(self.current_point.move(x=self.settings.card_width - check_box_width - 4,
                                                           y= -self.settings.card_width + 11),
                                   width=check_box_width, fill=False) 
             
-    def _calculate_check_box_width (self):
+    def calculate_check_box_width (self):
         return self.settings.card_width / 10        
 
-    def _render_story_box_lines (self):
+    def render_story_box_lines (self):
         delta = 30
         self.canvas.line(self.current_point.move(x=4, y= -delta),
                          self.current_point.move(x=self.settings.card_width - 4,
