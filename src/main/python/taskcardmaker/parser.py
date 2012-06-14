@@ -38,23 +38,26 @@ class TaskCardParser (object):
         elif line.startswith("#"):
             self.parse_settings_line(line)
         elif line:
-            if not self.story:
-                raise SyntaxError("No story has been defined")
+            self.parse_task_line(line)
+    
+    def parse_task_line (self, line):
+        if not self.story:
+            raise SyntaxError("No story has been defined")
+        
+        blocker = False
+        if line.startswith("B:"):
+            blocker = True
+            line = line[2:]
+        
+        elements = line.split("|")
+        
+        task = [line.strip() for line in elements[0].split("\\")]
+        tags = None
+        
+        if len(elements) == 2:
+            tags = map(lambda x: x.strip(), elements[1].split(','))
             
-            blocker = False
-            if line.startswith("B:"):
-                blocker = True
-                line = line[2:]
-            
-            elements = line.split("|")
-            
-            task = elements[0]
-            tags = None
-            
-            if len(elements) == 2:
-                tags = map(lambda x: x.strip(), elements[1].split(','))
-                
-            self.story.add_task(Task(task.strip(), tags, blocker))
+        self.story.add_task(Task(task, tags, blocker))
     
     def parse_settings_line (self, line):
         parts = line[1:].strip().split(' ')

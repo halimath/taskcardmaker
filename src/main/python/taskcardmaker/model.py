@@ -47,7 +47,13 @@ class Story (object):
 class Task (object):
     def __init__ (self, description, tags=None, blocker=False):
         self.story = None
-        self.description = description
+        self.description = []
+        
+        if isinstance(description, list):
+            self.description = description
+        else:
+            self.description = [str(description)]
+        
         self.tags = []
         if tags:
             for tag in tags:

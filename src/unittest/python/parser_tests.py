@@ -60,7 +60,7 @@ class TaskCardParserTest (unittest.TestCase):
         self.assertEquals(1, len(story.tasks))
         
         task = story.tasks[0]
-        self.assertEquals("Beispieltask", task.description)
+        self.assertEquals(["Beispieltask"], task.description)
 
     def test_should_parse_single_task_without_project (self):
         self.parser.parse("S:IP-275|Sortierung nach Aktualitaet",
@@ -76,7 +76,7 @@ class TaskCardParserTest (unittest.TestCase):
         self.assertEquals(1, len(story.tasks))
         
         task = story.tasks[0]
-        self.assertEquals("Beispieltask", task.description)
+        self.assertEquals(["Beispieltask"], task.description)
 
     def test_should_parse_single_task_with_single_tag (self):
         self.parser.parse("P:I18N", "S:IP-275|Sortierung nach Aktualitaet",
@@ -106,7 +106,7 @@ class TaskCardParserTest (unittest.TestCase):
     def test_should_strip_whitespace_in_task_text_and_tags (self):
         self.parser.parse("S:IP-275|Lorem ipsum", "      Foo    |    Bar    , Foo ")
         
-        self.assertEquals("Foo",
+        self.assertEquals(["Foo"],
                           self.parser.project.stories[0].tasks[0].description)
         self.assertEquals(["Bar", "Foo"],
                           self.parser.project.stories[0].tasks[0].tags)
@@ -116,4 +116,10 @@ class TaskCardParserTest (unittest.TestCase):
         
         self.assertTrue(self.parser.project.stories[0].tasks[0].blocker)
         self.assertFalse(self.parser.project.stories[0].tasks[1].blocker)
+
+    def test_should_parse_task_with_multiline_description (self):
+        self.parser.parse("S:IP-275|", "Spam\\and\\Eggs")
+        
+        self.assertEquals(["Spam", "and", "Eggs"], 
+                          self.parser.project.stories[0].tasks[0].description)
 

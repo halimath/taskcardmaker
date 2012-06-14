@@ -145,8 +145,15 @@ taskcardmaker.Editor = function() {
 
 				jQuery("<div>").appendTo(taskCard).addClass("story-identifier")
 						.text(story.identifier);
-				jQuery("<div>").appendTo(taskCard).addClass("description")
-						.text(task.description);
+
+				var descriptionHtml = ""; 
+				for (var k = 0; k < task.description.length; ++k) {
+					descriptionHtml += task.description[k] + "<br/>";
+				}
+				jQuery("<div>")
+					.appendTo(taskCard)
+					.addClass("description")
+					.html(descriptionHtml);
 
 				var tagsText = "";
 				for ( var t = 0; t < task.tags.length; ++t) {

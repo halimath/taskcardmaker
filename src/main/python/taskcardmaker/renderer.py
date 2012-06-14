@@ -88,7 +88,7 @@ class Renderer (object):
 
     def render_story_title (self, story):
         self.canvas.select_font(size=self.settings.font_size * 1.2, family="Helvetica-Bold")
-        lines = self.break_into_lines(story.title, self.settings.card_width - 10)
+        lines = self.break_into_lines([story.title], self.settings.card_width - 10)
         
         i = 0
         for line in lines[0:3]:
@@ -150,23 +150,24 @@ class Renderer (object):
         
         return abbreviated + "..." 
         
-    def break_into_lines (self, text, max_width=None):
+    def break_into_lines (self, lines, max_width=None):
         if not max_width:
             max_width = self.settings.card_width
 
         result = []
         
-        words = text.split()
-        current_line = []
-        
-        for word in words:
-            if self.canvas.text_width(" ".join(current_line + [word])) > max_width:
-                result.append(" ".join(current_line))
-                current_line = [word]
-            else:
-                current_line.append(word)
-        
-        result.append(" ".join(current_line))
+        for line in lines:
+            words = line.split()
+            current_line = []
+            
+            for word in words:
+                if self.canvas.text_width(" ".join(current_line + [word])) > max_width:
+                    result.append(" ".join(current_line))
+                    current_line = [word]
+                else:
+                    current_line.append(word)
+            
+            result.append(" ".join(current_line))
         
         return result            
 
