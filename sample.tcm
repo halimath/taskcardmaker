@@ -1,5 +1,6 @@
 # width 60
 # font_size 15
+# storycards no
 P:Lorem ipsum dolor
 S:XX|Lorem ipsum\\dolor sit
 Spam\and\eggs

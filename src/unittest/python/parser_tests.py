@@ -5,6 +5,17 @@ from taskcardmaker.parser import TaskCardParser, ParsingError
 class TaskCardParserTest (unittest.TestCase):
     def setUp (self):
         self.parser = TaskCardParser()
+        
+    def test_should_raise_parsing_error_when_using_setting_storycards_with_unknown_value (self):
+        self.assertRaises(ParsingError, self.parser.parse, "# storycards caboom")
+
+    def test_should_parse_setting_storycards_with_value_no (self):
+        self.parser.parse("# storycards no")
+        self.assertFalse(self.parser.settings.render_storycards)
+
+    def test_should_parse_setting_storycards_with_value_yes (self):
+        self.parser.parse("# storycards yes")
+        self.assertTrue(self.parser.settings.render_storycards)
 
     def test_should_raise_syntax_error_when_unknown_settings_is_used  (self):
         self.assertRaises(ParsingError, self.parser.parse, "# spam eggs")

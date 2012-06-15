@@ -18,7 +18,7 @@ class Renderer (object):
     def __enter__ (self):
         return self
     
-    def __exit__(self, exception_type, exception_value, traceback):
+    def __exit__ (self, exception_type, exception_value, traceback):
         self.close()
 
     def close (self):
@@ -28,13 +28,14 @@ class Renderer (object):
         self.settings = settings
         
     def render_story (self, story):
-        self.move_to_next_box()
-
-        self.render_box((.5, .8, 1))
-        self.render_story_box_lines()
-        
-        self.render_story_identifier(story)
-        self.render_story_title(story)
+        if self.settings.render_storycards:
+            self.move_to_next_box()
+    
+            self.render_box((.5, .8, 1))
+            self.render_story_box_lines()
+            
+            self.render_story_identifier(story)
+            self.render_story_title(story)
 
         for task in story.tasks:
             self.render_task(task)        
@@ -98,10 +99,10 @@ class Renderer (object):
             i += 1
             
     def render_task_tags (self, task):
-        self.canvas.fill_color((.4, .4, .4))
-        self.canvas.select_font(size=self.settings.font_size * 1.1, family="Helvetica-Bold")
+        self.canvas.fill_color((0, 0, 0))
+        self.canvas.select_font(size=self.settings.font_size * .9, family="Helvetica-Bold")
         tags_string = " | ".join(task.tags)
-        width = self.settings.card_width
+        width = self.settings.card_width - 4
         if self.settings.render_check_box:
             width -= self.calculate_check_box_width() + 6
         tags_string = self.abbreviate_to_width(tags_string, max_width=width)

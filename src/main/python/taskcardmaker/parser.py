@@ -84,6 +84,13 @@ class TaskCardParser (object):
                 self.settings.render_check_box = False
             else:
                 raise ParsingError("Invalid checkboxes value '%s'" % value)
+        elif key.lower() == "storycards":
+            if value == "yes":
+                self.settings.render_storycards = True
+            elif value == "no":
+                self.settings.render_storycards = False
+            else:
+                raise ParsingError("Invalid storycards value '%s'" % value)
         else:
             raise ParsingError("Unknown setting '%s'" % key)
         
