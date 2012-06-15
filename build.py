@@ -16,7 +16,7 @@ use_plugin("python.django")
 
 default_task = ["analyze", "publish"]
 
-version = "0.4.4"
+version = "0.4.6"
 summary = "A task card generator"
 authors = [Author("Alexander Metzner", "alexander.metzner@gmail.com")]
 
