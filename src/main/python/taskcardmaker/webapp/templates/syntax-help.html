@@ -11,6 +11,13 @@
   </p>
   <pre>S:ID-XXX|Test the taskcardmaker
 S:ID-XXX</pre>
+
+  <p>
+    Story titles can contain line breaks. Line breaks are expressed by writing a
+    single backslash character onto a task line ('\'). Multiple backslash
+    characters can be used to generate empty lines.
+  </p>
+  <pre>S:ID-XXX|My\Story\Title</pre>
   
   <h4>Add a task</h4>
   <p>
@@ -22,18 +29,18 @@ S:ID-XXX</pre>
 Create some more tasks|DESIGN
 Print tasks|PDF,PRINT</pre>
   <p>
-    Tasks can contain line breaks. Linebreaks are expressed by writing a
+    Tasks can contain line breaks. Line breaks are expressed by writing a
     single backslash character onto a task line ('\'). Multiple backslash
     characters can be used to generate empty lines.
   </p>
   <pre>This\task\has\one\word\per\line</pre>
   
-  <h4>Add a blocker task</h4>
+  <h4>Blocker task</h4>
   <p>
     Blocker tasks (shown in red instead of yellow) are defined just like normal
-    tasks except that the line starts with <code>B:</code>.
+    tasks with at least one tag named <code>BLOCKER</code>.
   </p>
-  <pre>B:Create blocker tasks</pre>
+  <pre>Create blocker tasks|BLOCKER</pre>
 
   <h4>Card Width</h4>
   <p>

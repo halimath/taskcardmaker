@@ -121,6 +121,17 @@ taskcardmaker.Editor = function() {
 	this.showError = function(text) {
 		jQuery("#preview").html('<span class="error">' + text + '</span>');
 	};
+	
+	function buildMultilineString (listOfStrings) {
+		var result = "";
+
+		for (var k = 0; k < listOfStrings.length; ++k) {
+			result += listOfStrings[k] + "<br/>";
+		}
+		
+		return result;
+	}
+	
 
 	function showPreviewObject(project) {
 		jQuery("#preview").html("");
@@ -133,8 +144,8 @@ taskcardmaker.Editor = function() {
 			storyCard.addClass("card").addClass("story");
 			jQuery("<div>").appendTo(storyCard).addClass("identifier").text(
 					story.identifier);
-			jQuery("<div>").appendTo(storyCard).addClass("title").text(
-					story.title);
+			jQuery("<div>").appendTo(storyCard).addClass("title").html(
+					buildMultilineString(story.title));
 
 			for ( var j = 0; j < story.tasks.length; ++j) {
 				var task = story.tasks[j];
@@ -146,14 +157,10 @@ taskcardmaker.Editor = function() {
 				jQuery("<div>").appendTo(taskCard).addClass("story-identifier")
 						.text(story.identifier);
 
-				var descriptionHtml = ""; 
-				for (var k = 0; k < task.description.length; ++k) {
-					descriptionHtml += task.description[k] + "<br/>";
-				}
 				jQuery("<div>")
 					.appendTo(taskCard)
 					.addClass("description")
-					.html(descriptionHtml);
+					.html(buildMultilineString(task.description));
 
 				var tagsText = "";
 				for ( var t = 0; t < task.tags.length; ++t) {

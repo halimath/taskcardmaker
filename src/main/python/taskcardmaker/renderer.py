@@ -88,7 +88,7 @@ class Renderer (object):
 
     def render_story_title (self, story):
         self.canvas.select_font(size=self.settings.font_size * 1.2, family="Helvetica-Bold")
-        lines = self.break_into_lines([story.title], self.settings.card_width - 10)
+        lines = self.break_into_lines(story.title, self.settings.card_width - 10)
         
         i = 0
         for line in lines[0:3]:

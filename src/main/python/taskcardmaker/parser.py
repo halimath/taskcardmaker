@@ -1,7 +1,7 @@
 
 from taskcardmaker.model import Project, Story, Task, Settings
 
-class SyntaxError (Exception):
+class ParsingError (Exception):
     def __init__ (self, message):
         self.message = message
     
@@ -22,43 +22,47 @@ class TaskCardParser (object):
         line = line.strip()
         
         if line.startswith("P:"):
-            self.project = Project(line[2:].strip())
+            self.parse_project_line(line)
         elif line.startswith("S:"):
-            if len(line[2:]) == 0:
-                raise SyntaxError("Missing story identifier")
-            try:
-                if "|" in line[2:]:
-                    identifier, title = line[2:].split("|")
-                else:
-                    identifier = title = line[2:]
-                self.story = Story(identifier.strip(), title.strip())
-                self.project.add_story(self.story)
-            except ValueError:
-                raise SyntaxError("Syntax error in story line: '%s'" % line)
+            self.parse_story_line(line)
         elif line.startswith("#"):
             self.parse_settings_line(line)
         elif line:
             self.parse_task_line(line)
+            
+    def parse_project_line (self, line):
+        self.project = Project(line[2:].strip())
+    
+    def parse_story_line (self, line):
+        if len(line[2:]) == 0:
+            raise ParsingError("Missing story identifier")
+        try:
+            if "|" in line[2:]:
+                identifier, title = line[2:].split("|")
+                identifier = identifier.strip()
+                title = self.split_multiline_artifact(title)
+            else:
+                identifier = title = line[2:].strip()
+            self.story = Story(identifier.strip(), title)
+            self.project.add_story(self.story)
+        except ValueError:
+            raise ParsingError("Syntax error in story line: '%s'" % line)
     
     def parse_task_line (self, line):
         if not self.story:
-            raise SyntaxError("No story has been defined")
-        
-        blocker = False
-        if line.startswith("B:"):
-            blocker = True
-            line = line[2:]
+            raise ParsingError("No story has been defined")
         
         elements = line.split("|")
         
-        task = [line.strip() for line in elements[0].split("\\")]
-        tags = None
+        task = self.split_multiline_artifact(elements[0])
+        tags = []
         
         if len(elements) == 2:
             tags = map(lambda x: x.strip(), elements[1].split(','))
             
+        blocker = "BLOCKER" in tags
         self.story.add_task(Task(task, tags, blocker))
-    
+        
     def parse_settings_line (self, line):
         parts = line[1:].strip().split(' ')
         key = parts[0]
@@ -67,18 +71,21 @@ class TaskCardParser (object):
             try:
                 self.settings.card_width = int(value)
             except ValueError:
-                raise SyntaxError("Invalid card width '%s'" % value)
+                raise ParsingError("Invalid card width '%s'" % value)
         elif key.lower() == "font_size":
             try:
                 self.settings.font_size = int(value)
             except ValueError:
-                raise SyntaxError("Invalid font size '%s'" % value)
+                raise ParsingError("Invalid font size '%s'" % value)
         elif key.lower() == "checkboxes":
             if value == "yes":
                 self.settings.render_check_box = True
             elif value == "no":
                 self.settings.render_check_box = False
             else:
-                raise SyntaxError("Invalid checkboxes value '%s'" % value)
+                raise ParsingError("Invalid checkboxes value '%s'" % value)
         else:
-            raise SyntaxError("Unknown setting '%s'" % key)
+            raise ParsingError("Unknown setting '%s'" % key)
+        
+    def split_multiline_artifact (self, artifact):
+        return [line.strip() for line in artifact.split("\\")]

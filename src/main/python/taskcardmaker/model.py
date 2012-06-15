@@ -1,4 +1,11 @@
 
+def string_or_list_as_list (string_or_list):
+    if isinstance(string_or_list, list):
+        return string_or_list
+    else:
+        return [str(string_or_list)]
+
+
 class Settings (object):
     def __init__ (self):
         self.card_width = 80
@@ -20,12 +27,12 @@ class Project (object):
                 "stories": map(lambda x: x.as_map(), self.stories)
                 }
 
-
 class Story (object):
     def __init__ (self, identifier, title=None):
         self.project = None
         self.identifier = identifier
-        self.title = title if title else identifier
+        
+        self.title = string_or_list_as_list(title if title else identifier)
         self.tasks = []
         
     @property
@@ -49,10 +56,7 @@ class Task (object):
         self.story = None
         self.description = []
         
-        if isinstance(description, list):
-            self.description = description
-        else:
-            self.description = [str(description)]
+        self.description = string_or_list_as_list(description)
         
         self.tags = []
         if tags:
