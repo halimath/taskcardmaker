@@ -1,12 +1,16 @@
 # width 60
-# font_size 15
-# storycards no
+# font_size 12
+# storycards yes
+# qrcodes yes
+
 P:Lorem ipsum dolor
-S:XX|Lorem ipsum\\dolor sit
+S:XX|Lorem ipsum\dolor sit
 Spam\and\eggs
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.|Sed,consequat,more,useless,tags 
 Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.|Sed,consequat 
 B:Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.|Sed,consequat
+
+S:XX-3|Lorem ipsum\\dolor sit
 Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. 
 In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.|leo,eget 
 Nullam dictum felis eu pede mollis pretium. 

@@ -78,21 +78,21 @@ class TaskCardParser (object):
             except ValueError:
                 raise ParsingError("Invalid font size '%s'" % value)
         elif key.lower() == "checkboxes":
-            if value == "yes":
-                self.settings.render_check_box = True
-            elif value == "no":
-                self.settings.render_check_box = False
-            else:
-                raise ParsingError("Invalid checkboxes value '%s'" % value)
+            self.settings.render_check_box = self.parse_yes_no_option(value)
         elif key.lower() == "storycards":
-            if value == "yes":
-                self.settings.render_storycards = True
-            elif value == "no":
-                self.settings.render_storycards = False
-            else:
-                raise ParsingError("Invalid storycards value '%s'" % value)
+            self.settings.render_storycards = self.parse_yes_no_option(value)
+        elif key.lower() == "qrcodes":
+            self.settings.render_qrcode = self.parse_yes_no_option(value)
         else:
             raise ParsingError("Unknown setting '%s'" % key)
+        
+    def parse_yes_no_option (self, option):
+        if option.lower() == "yes":
+            return True
+        elif option.lower() == "no":
+            return False
+        else:
+            raise ParsingError("Invalid yes/no option '%s'" % option)
         
     def split_multiline_artifact (self, artifact):
         return [line.strip() for line in artifact.split("\\")]

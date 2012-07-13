@@ -12,6 +12,7 @@ class Settings (object):
         self.font_size = 14
         self.render_check_box = False
         self.render_storycards = True
+        self.render_qrcode = False
 
 class Project (object):
     def __init__ (self, name=None):

@@ -1,8 +1,13 @@
+import urllib2
+import StringIO
+
 import getpass
 import reportlab.pdfgen.canvas
 import reportlab.lib.pagesizes
 import reportlab.lib.units
+import reportlab.lib.utils
 
+import PIL
 
 class Point (object):
     def __init__ (self, x, y):
@@ -16,6 +21,19 @@ class Point (object):
     
     def move (self, x=0, y=0):
         return Point(self.x + x, self.y + y)
+    
+class Image (object):
+    @staticmethod
+    def from_url (url):
+        result = urllib2.urlopen(url)
+        image_data = StringIO.StringIO(result.read())
+        
+        return Image(PIL.Image.open(image_data))
+        
+    def __init__ (self, pil_image):
+        self.pil_image = pil_image
+        self.pil_image.load()
+        self.pil_image.save("qrcode.png", "PNG")
     
 class Canvas (object):
     def __init__ (self, filenameOrFilelikeObject, title=None, author=None):
@@ -61,6 +79,11 @@ class Canvas (object):
                          width * self.scaling, 
                          height * self.scaling, 
                          fill=1 if fill else 0)
+        
+    def draw_image (self, position, image):
+        self.canvas.drawImage(reportlab.lib.utils.ImageReader(image.pil_image), 
+                              position.x * self.scaling,
+                              position.y * self.scaling)
     
     def line (self, start_point, end_point):
         self.canvas.line(start_point.x * self.scaling, 

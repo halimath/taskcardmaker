@@ -1,6 +1,22 @@
-from taskcardmaker.canvas import Canvas, Point
+from taskcardmaker.canvas import Canvas, Point, Image
 from taskcardmaker.model import Settings
 import taskcardmaker
+
+class QrCodeGenerator (object):
+    GOOGLE_CHART_API_URL = "https://chart.googleapis.com/chart?cht=qr&chs=60x60&chl=%s"
+    
+    def generate_qr_code (self, data):
+        url = QrCodeGenerator.GOOGLE_CHART_API_URL % data
+        return Image.from_url(url)
+    
+    @property
+    def width (self):
+        return 22
+
+    @property
+    def height (self):
+        return 20
+
 
 class Renderer (object):
     PAPER_WIDTH = 210
@@ -14,6 +30,7 @@ class Renderer (object):
         self.stories_written = 0
         
         self.settings = Settings()
+        self.qr_code_generator = QrCodeGenerator()
         
     def __enter__ (self):
         return self
@@ -36,6 +53,11 @@ class Renderer (object):
             
             self.render_story_identifier(story)
             self.render_story_title(story)
+            
+            if self.settings.render_qrcode:
+                self.canvas.draw_image(self.current_point.move(self.settings.card_width - self.qr_code_generator.width,
+                                                               -1 * self.settings.card_width + 1), 
+                                       self.qr_code_generator.generate_qr_code(story.identifier))
 
         for task in story.tasks:
             self.render_task(task)        
@@ -89,12 +111,16 @@ class Renderer (object):
 
     def render_story_title (self, story):
         self.canvas.select_font(size=self.settings.font_size * 1.2, family="Helvetica-Bold")
-        lines = self.break_into_lines(story.title, self.settings.card_width - 10)
+        
+        width = self.settings.card_width - 10
+        if self.settings.render_qrcode:
+            width -= self.qr_code_generator.width
+        lines = self.break_into_lines(story.title, width)
         
         i = 0
         for line in lines[0:3]:
             self.canvas.text(self.current_point.move(x=5,
-                                                     y= -40 - 7 * i),
+                                                     y= -40 - 6 * i),
                              line)
             i += 1
             
@@ -130,7 +156,7 @@ class Renderer (object):
             lines = lines[:Renderer.MAX_LINES_IN_BOX_DESCRIPTION - 1] + ["..."]
         for line in lines:
             self.canvas.text(self.current_point.move(x=5,
-                                                     y= -12 + -6 * line_number),
+                                                     y= -12 - 6 * line_number),
                              line)
             line_number += 1
             
