@@ -6,7 +6,6 @@ install:
   - pip install coverage --use-mirrors
   - pip install django --use-mirrors
   - pip install http://sourceforge.net/projects/pychecker/files/pychecker/0.8.19/pychecker-0.8.19.tar.gz/download --use-mirrors
-  - pip install pymetrics --use-mirrors  
   - pip install PIL
   - pip install http://python-builder.googlecode.com/files/python-builder-0.6.1.tar.gz --use-mirrors  
 script: pyb
