@@ -83,8 +83,15 @@ class TaskCardParser (object):
             self.settings.render_storycards = self.parse_yes_no_option(value)
         elif key.lower() == "qrcodes":
             self.settings.render_qrcode = self.parse_yes_no_option(value)
+        elif key.lower() == "colors":
+            self.settings.colors = self.parse_colors(value)
         else:
             raise ParsingError("Unknown setting '%s'" % key)
+
+    def parse_colors (self, value):
+        if value not in [Settings.COLORS_BACKGROUND, Settings.COLORS_FOREGROUND]:
+            raise ParsingError("Invalid color: '%s'" % value)
+        return value
         
     def parse_yes_no_option (self, option):
         if option.lower() == "yes":

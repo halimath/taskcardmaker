@@ -1,11 +1,23 @@
 import unittest
 
+from taskcardmaker.model import Settings
 from taskcardmaker.parser import TaskCardParser, ParsingError
 
 class TaskCardParserTest (unittest.TestCase):
     def setUp (self):
         self.parser = TaskCardParser()
-        
+
+    def test_should_raise_parsing_error_when_using_setting_colorswith_unknown_value (self):
+        self.assertRaises(ParsingError, self.parser.parse, "# colors caboom")
+
+    def test_should_parse_setting_colors_with_foreground(self):
+        self.parser.parse("# colors foreground")
+        self.assertEquals(Settings.COLORS_FOREGROUND, self.parser.settings.colors)
+
+    def test_should_parse_setting_colors_with_value_background (self):
+        self.parser.parse("# colors background")
+        self.assertEquals(Settings.COLORS_BACKGROUND, self.parser.settings.colors)
+
     def test_should_raise_parsing_error_when_using_setting_storycards_with_unknown_value (self):
         self.assertRaises(ParsingError, self.parser.parse, "# storycards caboom")
 
@@ -146,4 +158,3 @@ class TaskCardParserTest (unittest.TestCase):
         
         self.assertEquals(["Spam", "and", "Eggs"], 
                           self.parser.project.stories[0].title)
-

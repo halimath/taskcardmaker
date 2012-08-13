@@ -24,4 +24,8 @@ handlers:
 libraries:
 - name: django
   version: latest
-  
+- name: PIL
+  version: latest
+
+env_variables:
+  DJANGO_SETTINGS_MODULE: 'taskcardmaker.webapp.settings'

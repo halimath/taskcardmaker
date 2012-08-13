@@ -10,4 +10,6 @@ ip*.tcm
 ootw.tcm
 ve
 *~
+.idea
+*.png
 

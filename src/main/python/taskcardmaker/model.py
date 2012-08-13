@@ -7,12 +7,16 @@ def string_or_list_as_list (string_or_list):
 
 
 class Settings (object):
+    COLORS_FOREGROUND = "foreground"
+    COLORS_BACKGROUND = "background"
+
     def __init__ (self):
         self.card_width = 80
         self.font_size = 14
         self.render_check_box = False
         self.render_storycards = True
         self.render_qrcode = False
+        self.colors = Settings.COLORS_BACKGROUND
 
 class Project (object):
     def __init__ (self, name=None):

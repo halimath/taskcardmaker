@@ -70,14 +70,17 @@ class Canvas (object):
                                position.y * self.scaling, 
                                text)
         return self
-    
+
+    def line_width (self, line_width):
+        self.canvas.setLineWidth(line_width * self.scaling)
+
     def draw_rect (self, upper_left, width, height=None, fill=True):
         if not height:
             height = width
-        self.canvas.rect(upper_left.x * self.scaling, 
+        self.canvas.rect(upper_left.x * self.scaling,
                          (upper_left.y - height) * self.scaling, 
                          width * self.scaling, 
-                         height * self.scaling, 
+                         height * self.scaling,
                          fill=1 if fill else 0)
         
     def draw_image (self, position, image):
