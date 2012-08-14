@@ -131,28 +131,35 @@ taskcardmaker.Editor = function() {
 		
 		return result;
 	}
-	
 
-	function showPreviewObject(project) {
+	function showPreviewObject(project, settings) {
 		jQuery("#preview").html("");
 
 		for ( var i = 0; i < project.stories.length; ++i) {
 			var story = project.stories[i];
 
-			var storyCard = jQuery("<div>");
-			storyCard.appendTo("#preview");
-			storyCard.addClass("card").addClass("story");
-			jQuery("<div>").appendTo(storyCard).addClass("identifier").text(
-					story.identifier);
-			jQuery("<div>").appendTo(storyCard).addClass("title").html(
-					buildMultilineString(story.title));
+            if (settings.renderStorycards) {
+                var storyCard = jQuery("<div>");
+                storyCard.appendTo("#preview");
+                storyCard.addClass("card").addClass("story").addClass(settings.colors);
+
+                jQuery("<div>").appendTo(storyCard).addClass("identifier").text(
+                        story.identifier);
+                jQuery("<div>").appendTo(storyCard).addClass("title").html(
+                        buildMultilineString(story.title));
+            }
 
 			for ( var j = 0; j < story.tasks.length; ++j) {
 				var task = story.tasks[j];
 
-				var taskCard = jQuery("<div>");
+                var extraCardStyleClass = "normal";
+                if (task.blocker) {
+                    extraCardStyleClass = "blocker";
+                }
+
+                var taskCard = jQuery("<div>");
 				taskCard.appendTo("#preview");
-				taskCard.addClass("card").addClass("task");
+				taskCard.addClass("card").addClass("task").addClass(extraCardStyleClass).addClass(settings.colors);
 
 				jQuery("<div>").appendTo(taskCard).addClass("story-identifier")
 						.text(story.identifier);
@@ -169,13 +176,10 @@ taskcardmaker.Editor = function() {
 
 				jQuery("<div>").appendTo(taskCard).addClass("tags").text(
 						tagsText);
-
-				if (task.blocker) {
-					taskCard.addClass("blocker");
-				}
 			}
 		}
 	}
+
 	this.showPreview = function(withAnimation) {
 		var sourceCode = jQuery("#editor").val();
 
@@ -196,7 +200,7 @@ taskcardmaker.Editor = function() {
 				dataType : "json",
 				success : function(data) {
 					if (data.status === 200) {
-						showPreviewObject(data.project);
+						showPreviewObject(data.project, data.settings);
 					} else {
 						that.showError(data.message);
 					}

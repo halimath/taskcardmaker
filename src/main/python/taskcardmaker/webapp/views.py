@@ -33,8 +33,9 @@ def do_parse (request):
     }
 
     try:
-        project, _ = parse_lines(request.raw_post_data.split("\n"))
-        response['project'] = project.as_map() 
+        project, settings = parse_lines(request.raw_post_data.split("\n"))
+        response['project'] = project.as_map()
+        response['settings'] = settings.as_map()
     except Exception as e:
         response['status'] = 400
         response['message'] = str(e)

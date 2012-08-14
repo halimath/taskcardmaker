@@ -66,8 +66,8 @@
 }
 
 div.card {
-	margin: 2px;
-	padding: 2px;
+	margin: 4px;
+	padding: 4px;
 	width: 200px;
 	height: 200px;
 	float: left;
@@ -81,15 +81,20 @@ div.card div {
 	overflow: hidden;
 }
 
-div.task {
-	border: 1px solid #8DA404;
-	background-color: #F2F5A9;
-	background: -moz-linear-gradient(top, #F2F5A9, #D2D589);
-	background: -webkit-gradient(linear, left top, left bottom, from(#F2F5A9),
-		to(#D2D589) );
+div.task.background {
+    border: 1px solid #8DA404;
+    background-color: #F2F5A9;
+    background: -moz-linear-gradient(top, #F2F5A9, #D2D589);
+    background: -webkit-gradient(linear, left top, left bottom, from(#F2F5A9),
+    to(#D2D589) );
 }
 
-div.blocker {
+div.task.foreground {
+    padding: 2px;
+    border: 2px solid #FEAE00;
+}
+
+div.blocker.background {
 	border: 1px solid #610B0B;
 	background-color: #F5A9A9;
 	background: -moz-linear-gradient(top, #F5A9A9, #F59999);
@@ -97,12 +102,22 @@ div.blocker {
 		to(#F59999) );
 }
 
-div.story {
-	border: 1px solid #084B8A;
-	background-color: #A9D0F5;
-	background: -moz-linear-gradient(top, #A9D0F5, #99C0E5);
-	background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5),
-		to(#99C0E5) );
+div.blocker.foreground {
+    border: 2px solid #610B0B;
+    padding: 2px;
+}
+
+div.story.background {
+    border: 1px solid #084B8A;
+    background-color: #A9D0F5;
+    background: -moz-linear-gradient(top, #A9D0F5, #99C0E5);
+    background: -webkit-gradient(linear, left top, left bottom, from(#A9D0F5),
+    to(#99C0E5) );
+}
+
+div.story.foreground {
+    padding: 2px;
+    border: 2px solid #084B8A;
 }
 
 div.task div {
@@ -111,9 +126,16 @@ div.task div {
 }
 
 div.task .story-identifier {
-	border-bottom: 1px solid #D2D589;
 	text-align: center;
 	height: 20px;
+}
+
+div.task.normal.background .story-identifier {
+    border-bottom: 1px solid #D2D589;
+}
+
+div.task.normal.foreground .story-identifier {
+    border-bottom: 1px solid #FEAE00;
 }
 
 div.blocker .story-identifier {
@@ -125,16 +147,24 @@ div.story .identifier {
 	border-bottom: 1px solid #084B8A;
 	text-align: center;
 	font-weight: bold;
+    font-size: 1.3em;
 	padding-top: 1em;
-	padding-bottom: 1em;
+	padding-bottom: 1.5em;
 }
 
 div.task .tags {
 	height: 20px;
-	border-top: 1px solid #B2B569;
 	text-align: center;
 	font-size: .9em;
 	font-style: italic;
+}
+
+div.task.normal.background .tags {
+    border-top: 1px solid #B2B569;
+}
+
+div.task.normal.foreground .tags {
+    border-top: 1px solid #FEAE00;
 }
 
 div.blocker .tags {

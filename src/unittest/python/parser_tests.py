@@ -56,13 +56,6 @@ class TaskCardParserTest (unittest.TestCase):
         self.parser.parse("# checkboxes no")
         self.assertFalse(self.parser.settings.render_check_box)
         
-    def test_should_raise_exception_when_parsing_qrcode_setting_with_invalid_value (self):
-        self.assertRaises(ParsingError, self.parser.parse, "# qrcodes spam")
-
-    def test_should_enable_qrcodes_when_parsing_qrcodes_setting (self):
-        self.parser.parse("# qrcodes yes")
-        self.assertTrue(self.parser.settings.render_qrcode)
-
     def test_should_raise_syntax_error_when_story_line_has_syntax_error (self):
         self.assertRaises(ParsingError, self.parser.parse, "S:")
 

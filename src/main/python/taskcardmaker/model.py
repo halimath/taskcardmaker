@@ -15,8 +15,16 @@ class Settings (object):
         self.font_size = 14
         self.render_check_box = False
         self.render_storycards = True
-        self.render_qrcode = False
         self.colors = Settings.COLORS_BACKGROUND
+
+    def as_map (self):
+        return {
+            'cardWidth': self.card_width,
+            'fontSize': self.font_size,
+            'renderCheckBox': self.render_check_box,
+            'renderStorycards': self.render_storycards,
+            'colors': self.colors
+        }
 
 class Project (object):
     def __init__ (self, name=None):
