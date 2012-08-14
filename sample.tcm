@@ -1,7 +1,7 @@
 # width 60
 # font_size 12
 # storycards yes
-# colors background
+# colors foreground
 
 P:Lorem ipsum dolor
 S:XX|Lorem ipsum\dolor sit

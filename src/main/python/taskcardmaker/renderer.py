@@ -1,4 +1,4 @@
-from taskcardmaker.canvas import Canvas, Point, Image
+from taskcardmaker.canvas import Canvas, Point
 from taskcardmaker.model import Settings
 import taskcardmaker
 
