@@ -1,7 +1,8 @@
-from taskcardmaker.canvas import Canvas, Point
-from taskcardmaker.model import Settings
 import taskcardmaker
 
+from taskcardmaker.canvas import Canvas, Point
+from taskcardmaker.model import Settings
+from taskcardmaker.utils import CamelCaseHyphenator
 
 WHITE = (1, 1, 1)
 BLACK = (0, 0, 0)
@@ -19,13 +20,15 @@ class Renderer (object):
     PAPER_WIDTH = 210
     INITIAL_X = 15
     MAX_LINES_IN_BOX_DESCRIPTION = 5
-    BOX_OUTER_LINES_THICKNESS = .5
+    BOX_OUTER_LINES_THICKNESS = 1
     BOX_INNER_LINES_THICKNESS = .2
 
-    def __init__ (self, filenameOrFilelikeObject, title=None, author=None):
+    def __init__ (self, filename_or_file_like_object, title=None, author=None):
+        self.hyphenator = CamelCaseHyphenator()
+
         self.current_point = Point(Renderer.INITIAL_X, 287)
         self.card_written = False
-        self.canvas = Canvas(filenameOrFilelikeObject, title, author)
+        self.canvas = Canvas(filename_or_file_like_object, title, author)
         self.stories_written = 0
 
         self.settings = Settings()
@@ -165,19 +168,19 @@ class Renderer (object):
 
     def render_task_description(self, task):
         lines = self.break_into_lines(task.description,
-                                      max_width=self.settings.card_width - 10)
+                                      max_width=self.settings.card_width - 15)
         line_number = 1
         if len(lines) > Renderer.MAX_LINES_IN_BOX_DESCRIPTION:
             lines = lines[:Renderer.MAX_LINES_IN_BOX_DESCRIPTION - 1] + ["..."]
         for line in lines:
-            self.canvas.text(self.current_point.move(x=5,
+            self.canvas.text(self.current_point.move(x=3,
                                                      y= -12 - 6 * line_number),
                              line)
             line_number += 1
 
     def abbreviate_to_width (self, text, max_width=None):
         if not max_width:
-            max_width = self.settings.card_width
+            max_width = self.settings.card_width - 2
 
         if self.canvas.text_width(text) <= max_width:
             return text
@@ -202,12 +205,27 @@ class Renderer (object):
             words = line.split()
             current_line = []
 
-            for word in words:
+            while words:
+                word = words[0]
+                current_line_as_string = " ".join(current_line)
+
                 if self.canvas.text_width(" ".join(current_line + [word])) > max_width:
-                    result.append(" ".join(current_line))
-                    current_line = [word]
+                    # try to hyphenate
+                    syliables = self.hyphenator.hyphenate(word)
+                    for i in range(1, len(syliables)):
+                        candidate = current_line_as_string + " " + "".join(syliables[0:i]) + "-"
+                        if self.canvas.text_width(candidate) > max_width:
+                            if i > 0:
+                                words.pop(0)
+                                current_line.append("".join(syliables[0:i]) + "-")
+                                result.append(" ".join(current_line))
+                                words.insert(0, "".join(syliables[i:-1]))
+                            break
+
+                    current_line = []
                 else:
                     current_line.append(word)
+                    words.pop(0)
 
             result.append(" ".join(current_line))
 
