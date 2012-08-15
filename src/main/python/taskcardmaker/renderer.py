@@ -168,7 +168,7 @@ class Renderer (object):
 
     def render_task_description(self, task):
         lines = self.break_into_lines(task.description,
-                                      max_width=self.settings.card_width - 15)
+                                      max_width=self.settings.card_width - 20)
         line_number = 1
         if len(lines) > Renderer.MAX_LINES_IN_BOX_DESCRIPTION:
             lines = lines[:Renderer.MAX_LINES_IN_BOX_DESCRIPTION - 1] + ["..."]
@@ -212,14 +212,16 @@ class Renderer (object):
                 if self.canvas.text_width(" ".join(current_line + [word])) > max_width:
                     # try to hyphenate
                     syliables = self.hyphenator.hyphenate(word)
-                    for i in range(1, len(syliables)):
+                    for i in range(0, len(syliables)):
                         candidate = current_line_as_string + " " + "".join(syliables[0:i]) + "-"
                         if self.canvas.text_width(candidate) > max_width:
                             if i > 0:
                                 words.pop(0)
                                 current_line.append("".join(syliables[0:i]) + "-")
                                 result.append(" ".join(current_line))
-                                words.insert(0, "".join(syliables[i:-1]))
+                                words.insert(0, "".join(syliables[i:]))
+                            else:
+                                result.append(" ".join(current_line))
                             break
 
                     current_line = []

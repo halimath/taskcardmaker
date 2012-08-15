@@ -4,6 +4,7 @@ class CamelCaseHyphenator (object):
         syliables = []
         syliable_begin = 0
 
+        i = len(word) - 1
         for i in range(1, len(word)):
             if word[i].istitle():
                 syliables.append(word[syliable_begin:i])

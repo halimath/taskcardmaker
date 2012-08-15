@@ -6,6 +6,9 @@ class CamelCaseHyphenatorTest (unittest.TestCase):
     def setUp (self):
         self.hyphenator = CamelCaseHyphenator()
 
+    def test_should_return_list_with_empty_string_when_word_is_empty (self):
+        self.assertEquals([''], self.hyphenator.hyphenate(''))
+
     def test_should_return_single_syliable_when_word_contains_no_upper_case_letters (self):
         self.assertEquals(['spam'], self.hyphenator.hyphenate('spam'))
 
