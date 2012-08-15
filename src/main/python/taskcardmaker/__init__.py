@@ -12,5 +12,5 @@ def parse_version (version_string):
         return ("0", "0", "0", "n/a")
 
 
-version = "0.5.4"
+version = "0.5.5"
 version_info = parse_version(version)

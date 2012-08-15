@@ -212,18 +212,18 @@ class Renderer (object):
                 if self.canvas.text_width(" ".join(current_line + [word])) > max_width:
                     # try to hyphenate
                     syliables = self.hyphenator.hyphenate(word)
-                    for i in range(0, len(syliables)):
-                        candidate = current_line_as_string + " " + "".join(syliables[0:i]) + "-"
+                    i = 1
+                    for i in range(1, len(syliables) - 1):
+                        candidate = (current_line_as_string + " " + "".join(syliables[0:i]) + "-").strip()
                         if self.canvas.text_width(candidate) > max_width:
-                            if i > 0:
-                                words.pop(0)
-                                current_line.append("".join(syliables[0:i]) + "-")
-                                result.append(" ".join(current_line))
-                                words.insert(0, "".join(syliables[i:]))
-                            else:
-                                result.append(" ".join(current_line))
                             break
 
+                    if i > 1:
+                        words.pop(0)
+                        current_line.append("".join(syliables[0:i]) + "-")
+                        words.insert(0, "".join(syliables[i:]))
+
+                    result.append(" ".join(current_line))
                     current_line = []
                 else:
                     current_line.append(word)

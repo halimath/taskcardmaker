@@ -6,6 +6,7 @@
 P:Lorem ipsum dolor
 S:XX|Lorem ipsum\dolor sit
 This Task Has A VeryLongTextWithALotOfWhitespaceSoTheRendererHasToBreakIt
+Add price range to CommercialPropertyResultListParameters
 Spam\and\eggs|BLOCKER
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.|Sed,consequat,more,useless,tags 
 Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.|Sed,consequat 
