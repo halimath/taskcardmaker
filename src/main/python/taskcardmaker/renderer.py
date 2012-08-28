@@ -1,3 +1,5 @@
+import logging
+
 import taskcardmaker
 
 from taskcardmaker.canvas import Canvas, Point
@@ -19,7 +21,7 @@ NORMAL_TASK_FOREGROUND = (.5, .5, .2)
 class Renderer (object):
     PAPER_WIDTH = 210
     INITIAL_X = 15
-    MAX_LINES_IN_BOX_DESCRIPTION = 5
+    MAX_LINES_IN_BOX_DESCRIPTION = 8
     BOX_OUTER_LINES_THICKNESS = 1
     BOX_INNER_LINES_THICKNESS = .2
 
@@ -46,7 +48,10 @@ class Renderer (object):
         self.settings = settings
 
     def render_story (self, story):
-        if self.settings.render_storycards:
+        if not self.settings.render_storycards:
+            logging.debug("Skipping story '%s' as story cards are disabled", story.identifier)
+        else:
+            logging.debug("Rendering story '%s'", story.identifier)
             self.move_to_next_box()
 
             self.render_story_box()
@@ -61,6 +66,8 @@ class Renderer (object):
             self.render_task(task)
 
     def render_task (self, task):
+        logging.debug("Rendering task '%s'", task.description)
+
         self.move_to_next_box()
 
         self.render_task_box(task)
@@ -210,18 +217,27 @@ class Renderer (object):
                 current_line_as_string = " ".join(current_line)
 
                 if self.canvas.text_width(" ".join(current_line + [word])) > max_width:
+                    logging.debug("Trying to hyphenate '%s'", word)
                     # try to hyphenate
                     syliables = self.hyphenator.hyphenate(word)
-                    i = 1
-                    for i in range(1, len(syliables) - 1):
-                        candidate = (current_line_as_string + " " + "".join(syliables[0:i]) + "-").strip()
-                        if self.canvas.text_width(candidate) > max_width:
-                            break
+                    if len(syliables) == 1:
+                        logging.debug("Unable to hyphenate '%s'. Moving to next line.", word)
+                        if len(current_line) == 0:
+                            truncated = self.abbreviate_to_width(word, max_width)
+                            logging.debug("Need to truncate '%s' to '%s'.", word, truncated)
+                            current_line.append(truncated)
+                            words.pop(0)
+                    else:
+                        i = 1
+                        for i in range(1, len(syliables) - 1):
+                            candidate = (current_line_as_string + " " + "".join(syliables[0:i]) + "-").strip()
+                            if self.canvas.text_width(candidate) > max_width:
+                                break
 
-                    if i > 1:
-                        words.pop(0)
-                        current_line.append("".join(syliables[0:i]) + "-")
-                        words.insert(0, "".join(syliables[i:]))
+                        if i > 1:
+                            words.pop(0)
+                            current_line.append("".join(syliables[0:i]) + "-")
+                            words.insert(0, "".join(syliables[i:]))
 
                     result.append(" ".join(current_line))
                     current_line = []

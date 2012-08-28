@@ -265,3 +265,22 @@ legend {
 .strong {
 	font-weight: bold;
 }
+
+a.button {
+    color: white;
+    padding: 4px 2px;
+    border: 1px solid #e46600;
+    border-radius: 2px;
+
+    background: #f2bc8a; /* Old browsers */
+    background: -moz-linear-gradient(top, #f2bc8a 0%, #f47600 99%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2bc8a), color-stop(99%,#f47600)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f2bc8a 0%,#f47600 99%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f2bc8a 0%,#f47600 99%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f2bc8a 0%,#f47600 99%); /* IE10+ */
+    background: linear-gradient(to bottom, #f2bc8a 0%,#f47600 99%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2bc8a', endColorstr='#f47600',GradientType=0 ); /* IE6-9 */
+}
+
+a.button:hover {
+}

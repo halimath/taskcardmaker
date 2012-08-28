@@ -1,5 +1,6 @@
 import optparse
 import sys
+import logging
 
 import taskcardmaker
 from taskcardmaker.renderer import Renderer
@@ -12,6 +13,11 @@ def parse_options ():
                          help="Output file to write generated pdf to",
                          metavar="<output file>",
                          default=None)
+    parser.add_option("-X", "--debug",
+                         dest="debug",
+                         help="Print debug log messages",
+                         default=False,
+                         action="store_true")
     options, arguments = parser.parse_args()
     if len(arguments) == 0:
         sys.stderr.write("%s: Missing file name\n" % sys.argv[0])
@@ -23,6 +29,10 @@ def parse_options ():
 
 def main ():
     options, input_file = parse_options()
+
+    logging.getLogger().setLevel(logging.ERROR)
+    if options.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
     
     sys.stdout.write("Reading file %s..." % input_file)
     with open(input_file, "r") as input_file:

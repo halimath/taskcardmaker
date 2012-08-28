@@ -12,7 +12,7 @@ class Settings (object):
 
     def __init__ (self):
         self.card_width = 80
-        self.font_size = 14
+        self.font_size = 12
         self.render_check_box = False
         self.render_storycards = True
         self.colors = Settings.COLORS_BACKGROUND
